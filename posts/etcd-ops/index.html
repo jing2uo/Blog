@@ -10,7 +10,7 @@
         content="guojing.io"/>
 
   
-  <meta name="description" content="有个朋友说起表白的段子时编了一句：你是我的 etcd 。
+  <meta name="description" content="有个朋友说起表白的段子时编了一句: you are the etcd to my k8s cluster 。
 "/>
   
 
@@ -59,7 +59,7 @@
       </li>
       
       <li>
-        <a href="/about/">与我有关</a>
+        <a href="/about/">关于</a>
       </li>
       
     </ul>
@@ -80,7 +80,7 @@
       </h1>
     </div>
     <div class="description">
-      <p class="sub_title">文科生 / 网管 / 看书写字 / 动漫 / 不爱国 / 随便写写</p>
+      <p class="sub_title">文科生 / 网管 / 看书写字 / 动漫 / 不爱国</p>
       <div class="my_socials">
         
         
@@ -92,6 +92,19 @@
     </div>
   </div>
 </div>
+<style>
+      table{
+        border-left:1px solid #000000;border-top:1px solid #000000;
+        width: 100%;
+        word-wrap:break-word; word-break:break-all;
+      }
+      table th{
+      text-align:center;
+      }
+      table th,td{
+        border-right:1px solid #000000;border-bottom:1px solid #000000;
+      }
+</style>
 
   <div class="content">
     <div class="post_page">
@@ -100,13 +113,13 @@
           <h2><a href='/posts/etcd-ops/'>etcd 集群运维</a></h2>
           <span class="date">2019.01.28</span>
         </div>
-        <div class="post_content markdown"><p>有个朋友说起表白的段子时编了一句：你是我的 etcd 。</p>
+        <div class="post_content markdown"><p>有个朋友说起表白的段子时编了一句: <code>you are the etcd to my k8s cluster</code> 。</p>
 
 <h2 id="集群的备份和恢复">集群的备份和恢复</h2>
 
 <h3 id="添加备份">添加备份</h3>
 
-<pre><code class="language-shell">#!/bin/bash
+<pre><code>#!/bin/bash
 IP=123.123.123.123
 BACKUP_DIR=/alauda/etcd_bak/
 mkdir -p $BACKUP_DIR
@@ -118,7 +131,7 @@ etcdctl --endpoints=http://$IP:2379 snapshot save $BACKUP/snap-$(date +%Y%m%d%H%
 
 <h3 id="恢复集群">恢复集群</h3>
 
-<pre><code class="language-shell">#!/bin/bash
+<pre><code>#!/bin/bash
 
 # 使用 etcdctl snapshot restore 生成各个节点的数据
 
@@ -133,7 +146,6 @@ ETCD_3=10.1.0.7
 
 for i in ETCD_1 ETCD_2 ETCD_3
 do
-
 export ETCDCTL_API=3
 etcdctl snapshot restore snapshot.db \
 --data-dir=/var/lib/etcd \
@@ -142,16 +154,14 @@ etcdctl snapshot restore snapshot.db \
 --initial-cluster-token k8s_etcd_token \
 --initial-advertise-peer-urls http://$i:2380 &amp;&amp; \
 mv /var/lib/etcd/ etcd_$i
-
 done
-
 # 把 etcd_10.1.0.5 复制到 10.1.0.5节点，覆盖/var/lib/etcd(同--data-dir路径)
 # 其他节点依次类推
 </code></pre>
 
 <h3 id="用etcd自动创建的snapdb恢复">用etcd自动创建的snapdb恢复</h3>
 
-<pre><code class="language-shell">#!/bin/bash 
+<pre><code>#!/bin/bash 
 export ETCDCTL_API=3
 etcdctl snapshot restore snapshot.db \
 --skip-hash-check \
@@ -178,41 +188,37 @@ etcdctl snapshot restore snapshot.db \
 <h3 id="从1到3">从1到3</h3>
 
 <ol>
-<li>执行添加</li>
-</ol>
+<li><p>执行添加</p>
 
-<pre><code class="language-shell">   #!/bin/bash
-   export ETCDCTL_API=2
-   etcdctl --endpoints=http://10.1.0.6:2379 member add 10.1.0.6 http://10.1.0.6:2380
-   etcdctl --endpoints=http://10.1.0.7:2379 member add 10.1.0.7 http://10.1.0.7:2380
+<pre><code>#!/bin/bash
+export ETCDCTL_API=2
+etcdctl --endpoints=http://10.1.0.6:2379 member add 10.1.0.6 http://10.1.0.6:2380
+etcdctl --endpoints=http://10.1.0.7:2379 member add 10.1.0.7 http://10.1.0.7:2380
    
-   # ETCD_NAME=&quot;etcd_10.1.0.6&quot; 
-   # ETCD_INITIAL_CLUSTER=&quot;10.1.0.6=http://10.1.0.6:2380,10.1.0.5=http://10.1.0.5:2380&quot;
-   # ETCD_INITIAL_CLUSTER_STATE=&quot;existing&quot;
-</code></pre>
+# ETCD_NAME=&quot;etcd_10.1.0.6&quot; 
+# ETCD_INITIAL_CLUSTER=&quot;10.1.0.6=http://10.1.0.6:2380,10.1.0.5=http://10.1.0.5:2380&quot;
+# ETCD_INITIAL_CLUSTER_STATE=&quot;existing&quot;
+</code></pre></li>
 
-<ol>
-<li>准备添加的节点 etcd 参数配置</li>
-</ol>
+<li><p>准备添加的节点 etcd 参数配置</p>
 
-<pre><code class="language-shell">   #!/bin/bash
-   /usr/local/bin/etcd 
-   --data-dir=/data.etcd 
-   --name 10.1.0.6
-   --initial-advertise-peer-urls http://10.1.0.6:2380 
-   --listen-peer-urls http://10.1.0.6:2380 
-   --advertise-client-urls http://10.1.0.6:2379 
-   --listen-client-urls http://10.1.0.6:2379 
-   --initial-cluster 10.1.0.6=http://10.1.0.6:2380,10.1.0.5=http://10.1.0.5:2380
-   --initial-cluster-state exsiting
-   --initial-cluster-token k8s_etcd_token
+<pre><code>#!/bin/bash
+/usr/local/bin/etcd 
+--data-dir=/data.etcd 
+--name 10.1.0.6
+--initial-advertise-peer-urls http://10.1.0.6:2380 
+--listen-peer-urls http://10.1.0.6:2380 
+--advertise-client-urls http://10.1.0.6:2379 
+--listen-client-urls http://10.1.0.6:2379 
+--initial-cluster 10.1.0.6=http://10.1.0.6:2380,10.1.0.5=http://10.1.0.5:2380
+--initial-cluster-state exsiting
+--initial-cluster-token k8s_etcd_token
    
-   # --initial-cluster 集群所有节点的 name=ip:peer_url
-   # --initial-cluster-state exsiting 告诉 etcd 自己归属一个已存在的集群，不要自立门户
-</code></pre>
+# --initial-cluster 集群所有节点的 name=ip:peer_url
+# --initial-cluster-state exsiting 告诉 etcd 自己归属一个已存在的集群，不要自立门户
+</code></pre></li>
 
-<ol>
-<li>踩过的坑</li>
+<li><p>踩过的坑</p></li>
 </ol>
 
 <p>从 1 到 3 期间，会经过集群是两节点的状态，这时候可能集群的表现就像挂了，endpoint status 这些命令都不能用，所以我们需要用member add先把集群扩到三节点，然后再依次启动etcd实例，这样做就能确保 etcd 就是健康的。</p>
@@ -225,13 +231,13 @@ etcdctl snapshot restore snapshot.db \
 
 <h3 id="生成证书">生成证书</h3>
 
-<pre><code class="language-shell">curl -s -L -o /usr/bin/cfssl https://pkg.cfssl.org/R1.2/cfssl_linux-amd64
+<pre><code>curl -s -L -o /usr/bin/cfssl https://pkg.cfssl.org/R1.2/cfssl_linux-amd64
 curl -s -L -o /usr/bin/cfssljson https://pkg.cfssl.org/R1.2/cfssljson_linux-amd64
 chmod +x /usr/bin/{cfssl,cfssljson}
 cd /etc/kubernetes/pki/etcd
 </code></pre>
 
-<pre><code class="language-json">#  cat ca-config.json
+<pre><code>#  cat ca-config.json
 {
   &quot;signing&quot;: {
     &quot;default&quot;: {
@@ -251,7 +257,7 @@ cd /etc/kubernetes/pki/etcd
 }
 </code></pre>
 
-<pre><code class="language-json">#  cat ca-csr.json
+<pre><code>#  cat ca-csr.json
 {
   &quot;CN&quot;: &quot;etcd&quot;,
   &quot;key&quot;: {
@@ -270,7 +276,7 @@ cd /etc/kubernetes/pki/etcd
 }
 </code></pre>
 
-<pre><code class="language-json">#  cat server-csr.json
+<pre><code>#  cat server-csr.json
 {
   &quot;CN&quot;: &quot;etcd-server&quot;,
   &quot;hosts&quot;: [
@@ -297,8 +303,7 @@ cd /etc/kubernetes/pki/etcd
 }
 </code></pre>
 
-<pre><code class="language-json"># cat client-csr.json
-
+<pre><code># cat client-csr.json
 {
   &quot;CN&quot;: &quot;etcd-client&quot;,
   &quot;hosts&quot;: [
@@ -318,15 +323,11 @@ cd /etc/kubernetes/pki/etcd
     }
   ]
 }
-
 </code></pre>
 
-<pre><code class="language-bash">cd /etc/kubernetes/pki/etcd
-
+<pre><code>cd /etc/kubernetes/pki/etcd
 cfssl gencert -initca ca-csr.json | cfssljson -bare ca
-
 cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=server server-csr.json | cfssljson -bare server
-
 cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=client client-csr.json | cfssljson -bare client
 </code></pre>
 
@@ -345,7 +346,7 @@ etcdctl --endpoints=http://172.30.0.123:2379 member update 1111111111 --peer-url
 
 <h3 id="修改配置">修改配置</h3>
 
-<pre><code class="language-shell">#  vim /etc/kubernetes/main*/etcd.yaml
+<pre><code>#  vim /etc/kubernetes/main*/etcd.yaml
 
 #  etcd启动命令部分修改 http 为 https，启动状态改成 existing
     - --advertise-client-urls=https://x.x.x.x:2379
@@ -377,7 +378,7 @@ etcdctl --endpoints=http://172.30.0.123:2379 member update 1111111111 --peer-url
 
 </code></pre>
 
-<pre><code class="language-shell">#  vim /etc/kubernetes/main*/kube-apiserver.yaml
+<pre><code>#  vim /etc/kubernetes/main*/kube-apiserver.yaml
 #  apiserver 启动部分插入，修改 http 为https
 	- --etcd-cafile=/etc/kubernetes/pki/etcd/ca.pem
 	- --etcd-certfile=/etc/kubernetes/pki/etcd/client.pem
@@ -406,7 +407,7 @@ etcdctl --endpoints=http://172.30.0.123:2379 member update 1111111111 --peer-url
 
 <p>其实上述所有步骤都需要这些命令的辅助——</p>
 
-<pre><code class="language-shell">#!/bin/bash
+<pre><code>#!/bin/bash
 # 如果证书的话，去掉--cert --key --cacert 即可
 # --endpoints= 需要写了几个节点的url，endpoint status就输出几条信息
 
@@ -430,7 +431,7 @@ kubectl get cs
 
 <h3 id="删除">删除</h3>
 
-<pre><code class="language-shell">ETCDCTL_API=2 etcdctl rm --recursive            # v2 的 api 可以这样删除一个“目录”
+<pre><code>ETCDCTL_API=2 etcdctl rm --recursive            # v2 的 api 可以这样删除一个“目录”
 ETCDCTL_API=3 etcdctl --endpoints=xxx del /xxxxx --prefix # v3 的版本
 
 # 带证书的话，参考上一条添加 --cert --key --cacert 即可
@@ -440,13 +441,13 @@ ETCDCTL_API=3 etcdctl --endpoints=xxx del /xxxxx --prefix # v3 的版本
 
 <h3 id="碎片整理">碎片整理</h3>
 
-<pre><code class="language-shell">ETCDCTL_API=3 etcdctl --endpoints=xx:xx,xx:xx,xx:xx defrag
+<pre><code>ETCDCTL_API=3 etcdctl --endpoints=xx:xx,xx:xx,xx:xx defrag
 ETCDCTL_API=3 etcdctl --endpoints=xx:xx,xx:xx,xx:xx endpoint status # 看数据量
 </code></pre>
 
 <h3 id="压缩">压缩</h3>
 
-<pre><code class="language-shell">ETCDCTL_API=3 etcdctl --endpoints=xx:xx,xx:xx,xx:xx compact
+<pre><code>ETCDCTL_API=3 etcdctl --endpoints=xx:xx,xx:xx,xx:xx compact
 
 # 这个在只有 K8s 用的 etcd 集群里作用不太大，可能具体场景我没遇到
 # 可参考这个文档
@@ -474,16 +475,14 @@ etcd --auto-compaction-retention=1
 <p>etcd 的日志在排查故障时很有用，如果我们用宿主机来部署 etcd，日志可以通过 systemd 检索到，但kubeadm 方式启动的 etcd 在容器重启后就会丢失所有历史。我们可以用以下的方案来做——</p>
 
 <ol>
-<li>shell 的重定向</li>
-</ol>
+<li><p>shell 的重定向</p>
 
-<pre><code class="language-shell">   etcd --xxxx --xxxx   &gt;  /var/log/etcd.log 
-   # 配合 logratate 来做日志切割
-   # 将日志通过 volume 挂载到宿主机
-</code></pre>
+<pre><code>etcd --xxxx --xxxx   &gt;  /var/log/etcd.log 
+# 配合 logratate 来做日志切割
+# 将日志通过 volume 挂载到宿主机
+</code></pre></li>
 
-<ol>
-<li>supervisor</li>
+<li><p>supervisor</p></li>
 </ol>
 
 <p>supervisor 从容器刚开始流行时，就是保持服务持续运行很有效的工具</p>
@@ -509,10 +508,10 @@ etcd --auto-compaction-retention=1
 
 <p>这种模式下的 etcd 集群，最明显的差别是容器内 etcd 的initial-cluster 启动参数只有自己的 ip，会有点懵挂了我这该怎么去恢复。其实基本原理没有变，kubeadm 藏了个 configmap，启动参数被放在了这里 ——</p>
 
-<pre><code class="language-shell">kubectl get cm  etcdcfg -n kube-system -o yaml
+<pre><code>kubectl get cm  etcdcfg -n kube-system -o yaml
 </code></pre>
 
-<pre><code class="language-yaml">    etcd:
+<pre><code>    etcd:
       local:
         serverCertSANs:
         - &quot;192.168.8.21&quot;
@@ -555,11 +554,6 @@ etcd --auto-compaction-retention=1
   <a id="back_to_top" href="#" class="back_to_top"><span>△</span></a>
 </div>
 <footer class="footer">
-  <div class="powered_by">
-    <a href="https://zeuk.me">Designed by Zeuk,</a>
-    <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
-  </div>
-
   <div class="footer_slogan">
     <span>The quieter you become, the more you can hear.</span>
   </div>

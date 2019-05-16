@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  
+  <meta name="author"
+        content="guojing.io"/>
+
+  
+  <meta name="description" content="用用 ~/.ssh/config 这个配置文件能极大提高工作效率。
+"/>
+  
+
+  
+  
+  <meta name="keywords" content="Kubernetes, Devops, Python, Debian"/>
+  
+
+  
+  <link rel="canonical" href="https://guojing.io/posts/ssh-tips/"/>
+
+  
+
+  <title>SSH 使用技巧 &middot; 郭靖 I/O</title>
+
+  <link rel="shortcut icon" href="https://guojing.io/images/favicon.ico"/>
+  <link rel="stylesheet" href="https://guojing.io/css/animate.min.css"/>
+  <link rel="stylesheet" href="https://guojing.io/css/remixicon.css"/>
+  <link rel="stylesheet" href="https://guojing.io/css/zozo.css"/>
+  <link rel="stylesheet" href="https://guojing.io/css/highlight.css"/>
+
+  
+  
+</head>
+
+<body>
+<div class="main animated">
+  <div class="nav_container animated fadeInDown">
+  <div class="site_nav" id="site_nav">
+    <ul>
+      
+      <li>
+        <a href="/">首页</a>
+      </li>
+      
+      <li>
+        <a href="/posts/">归档</a>
+      </li>
+      
+      <li>
+        <a href="/tags/">标签</a>
+      </li>
+      
+      <li>
+        <a href="/days/">日常</a>
+      </li>
+      
+      <li>
+        <a href="/about/">关于</a>
+      </li>
+      
+    </ul>
+  </div>
+  <div class="menu_icon">
+    <a id="menu_icon"><i class="remixicon-links-line"></i></a>
+  </div>
+</div>
+
+  <div class="header animated fadeInDown">
+  <div class="site_title_container">
+    <div class="site_title">
+      <h1>
+        <a href="https://guojing.io/">
+          <span>郭靖 I/O</span>
+          <img src="https://guojing.io/images/logo.png"/>
+        </a>
+      </h1>
+    </div>
+    <div class="description">
+      <p class="sub_title">文科生 / 网管 / 看书写字 / 动漫 / 不爱国</p>
+      <div class="my_socials">
+        
+        
+        <a href="https://github.com/jing2uo" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
+        
+        
+        <a href="https://guojing.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+      table{
+        border-left:1px solid #000000;border-top:1px solid #000000;
+        width: 100%;
+        word-wrap:break-word; word-break:break-all;
+      }
+      table th{
+      text-align:center;
+      }
+      table th,td{
+        border-right:1px solid #000000;border-bottom:1px solid #000000;
+      }
+</style>
+
+  <div class="content">
+    <div class="post_page">
+      <div class="post animated fadeInDown">
+        <div class="post_title post_detail_title">
+          <h2><a href='/posts/ssh-tips/'>SSH 使用技巧</a></h2>
+          <span class="date">2018.04.20</span>
+        </div>
+        <div class="post_content markdown"><p>用用 ~/.ssh/config  这个配置文件能极大提高工作效率。</p>
+
+<h4 id="ssh-使用密钥认证">SSH 使用密钥认证</h4>
+
+<pre><code class="language-shell">ssh-keygen -C &quot;hipkomh@gmail.com&quot;  
+    # -C 后面是备注，一般用邮箱，或者姓名+公司等其他标识
+    # 默认路径在 ~/.ssh/id_rsa，注意不要覆盖自己的
+ssh-copy-id -i path/to/keyfile user@remotehostname -p port
+    # ssh-copy-id 用途是把公钥添加到远程主机用户目录.ssh/authorized_key文件里
+</code></pre>
+
+<h4 id="ssh-client-config文件">SSH client config文件</h4>
+
+<p><code>➜  ~ cat ~/.ssh/config</code></p>
+
+<pre><code class="language-shell">Host *                                             # 用 * 对所有主机生效
+  ControlPersist yes                               # 复用之前的连接
+  ControlMaster auto
+  ControlPath /tmp/ssh_%h_%p                       # socks文件存放目录
+  Compression yes                                  # 压缩传输数据
+  StrictHostKeyChecking no                         # 检查远程主机指纹是否一致
+  HashKnownHosts no                                # .ssh/known_hosts文件里记录的值不进行哈希
+                                                   # /etc/ssh/ssh_config 里有更多配置项
+
+Host jumpserver                                    # 定义主机别名，ssh hk-node 即可登录
+  HostName 39.xx.x.84                              # 主机ip地址
+  User root                                        # 用户名，默认为当前用户
+  IdentityFile ~/.ssh/id_rsa_2019                  # 指定私钥，默认~/.ssh/id_rsa
+
+Host prod-env
+  HostName 172.21.0.6                              # 注意这里写了个内网ip
+  User root
+  IdentityFile ~/.ssh/id_rsa_2019
+  ProxyJump jumpserver                             # 使用跳板机，这里也可以用主机别名
+
+
+Host alauda-*                                      # 对 Host 是 alauda-开头的主机适用
+  IdentityFile ~/.ssh/alauda/id_rsa.alauda         # 定义这组机器的key
+  User alauda                                      # 定义这组机器的用户名
+Host alauda-master
+  HostName 54.xxx.181.xxx
+  Port 5022                                        # 自定义端口
+Host alauda-node
+  HostName 52.xx.91.xx
+</code></pre>
+
+<p>以上示例基本演示了配置文件的常用情况，其实ProxyJump 参数较新的 openssh 才有，旧版可使用ProxyCommand，格式为：<code>ProxyCommand=&quot;ssh -W %h:%p root@jumpserver&quot;</code></p>
+
+<p>这里定义的在跳板机后的节点( 使用 ProxyJump )，可以直接被 scp 使用！例如——</p>
+
+<p><code>scp ~/Desktop/oooo.sh prod-env:/root/</code></p>
+
+<h4 id="ansible使用-ssh-跳板机">Ansible使用 ssh 跳板机</h4>
+
+<p><code>➜  ~ cat ~/playbook/inventory/master</code></p>
+
+<pre><code class="language-shell">[cluster]
+  master        ansible_host=10.224.1.20
+  node          ansible_host=10.224.1.21
+                 # 使用别名定义 master 组内机器
+[cluster:vars]   
+  ansible_ssh_common_args='-o ProxyCommand=&quot;ssh -W %h:%p root@jumpserver&quot;'
+  ansible_ssh_private_key_file=~/.ssh/id_rsa_2019
+                 # 定义 master 组机器使用的变量
+                 # ansible_ssh_* 是内置变量，下面是指定跳板机和key
+                 # 可以直接调用 ~/.ssh/config 文件里定义的主机别名
+                 # 使用时删掉包含 # 的所有行
+</code></pre>
+
+<p>其他特性和变量还有很多，如有需要请参考ansible和ssh官方手册。</p>
+
+<h4 id="ssh隧道">SSH隧道</h4>
+
+<pre><code class="language-shell">ssh -ND localhost:1090 hk-jumpserver   # hk-jumpserver 在 ~/.ssh/config 文件中定义
+</code></pre>
+
+<p>配合 privoxy 、proxychains 实现命令行工具的代理；</p>
+
+<p>浏览器配合 SwitchyOmega 插件，将特别的网站转向 socks5 localhost:1090 Enjoy~</p></div>
+        <div class="post_footer">
+          
+          <div class="meta">
+            <div class="info">
+              <span class="field tags">
+                <i class="remixicon-stack-line"></i>
+                
+                <a href="https://guojing.io/tags/ssh/">ssh</a>
+                
+              </span>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      
+      
+    </div>
+  </div>
+  <a id="back_to_top" href="#" class="back_to_top"><span>△</span></a>
+</div>
+<footer class="footer">
+  <div class="footer_slogan">
+    <span>The quieter you become, the more you can hear.</span>
+  </div>
+</footer>
+
+
+
+<script src="https://guojing.io/js/jquery-3.3.1.min.js"></script>
+<script src="https://guojing.io/js/zozo.js"></script>
+<script src="https://guojing.io/js/highlight.pack.js"></script>
+<link  href="https://guojing.io/css/fancybox.min.css" rel="stylesheet">
+<script src="https://guojing.io/js/fancybox.min.js"></script>
+
+<script>hljs.initHighlightingOnLoad()</script>
+
+
+  <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+
+
+
+
+
+
+</body>
+</html>

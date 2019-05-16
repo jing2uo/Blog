@@ -3,14 +3,43 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://guojing.io/about/</loc>
-    <lastmod>2019-05-16T23:18:19+08:00</lastmod>
+    <loc>https://guojing.io/posts/debian-yoga/</loc>
+    <lastmod>2019-05-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://guojing.io/posts/</loc>
+    <lastmod>2019-05-17T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://guojing.io/tags/</loc>
+    <lastmod>2019-05-17T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://guojing.io/tags/debian/</loc>
+    <lastmod>2019-05-17T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://guojing.io/tags/thinkpad/</loc>
+    <lastmod>2019-05-17T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://guojing.io/</loc>
-    <lastmod>2019-05-16T23:18:19+08:00</lastmod>
+    <lastmod>2019-05-17T00:00:00+00:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://guojing.io/about/</loc>
+    <lastmod>2019-05-16T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -25,30 +54,35 @@
   </url>
   
   <url>
-    <loc>https://guojing.io/posts/linux-apps/</loc>
-    <lastmod>2019-02-10T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://guojing.io/posts/</loc>
-    <lastmod>2019-02-10T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://guojing.io/tags/</loc>
-    <lastmod>2019-02-10T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://guojing.io/tags/app/</loc>
-    <lastmod>2019-02-10T00:00:00+00:00</lastmod>
+    <loc>https://guojing.io/tags/bootloader/</loc>
+    <lastmod>2019-03-15T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://guojing.io/tags/linux/</loc>
+    <lastmod>2019-03-15T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://guojing.io/posts/refind/</loc>
+    <lastmod>2019-03-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://guojing.io/tags/refind/</loc>
+    <lastmod>2019-03-15T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://guojing.io/posts/linux-apps/</loc>
+    <lastmod>2019-02-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://guojing.io/tags/app/</loc>
     <lastmod>2019-02-10T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -71,7 +105,34 @@
   </url>
   
   <url>
+    <loc>https://guojing.io/posts/zplug/</loc>
+    <lastmod>2018-05-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://guojing.io/tags/zsh/</loc>
+    <lastmod>2018-05-10T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://guojing.io/posts/ssh-tips/</loc>
+    <lastmod>2018-04-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://guojing.io/tags/ssh/</loc>
+    <lastmod>2018-04-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://guojing.io/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://guojing.io/series/</loc>
     <priority>0</priority>
   </url>
   

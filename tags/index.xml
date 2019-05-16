@@ -6,26 +6,64 @@
     <description>Recent content in Tags on 郭靖 I/O</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 10 Feb 2019 00:00:00 +0000</lastBuildDate>
+    <managingEditor>mail@guojing.io (guojing.io)</managingEditor>
+    <webMaster>mail@guojing.io (guojing.io)</webMaster>
+    <lastBuildDate>Fri, 17 May 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://guojing.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>app</title>
-      <link>https://guojing.io/tags/app/</link>
-      <pubDate>Sun, 10 Feb 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://guojing.io/tags/app/</guid>
+      <title>debian</title>
+      <link>https://guojing.io/tags/debian/</link>
+      <pubDate>Fri, 17 May 2019 00:00:00 +0000</pubDate>
+      <author>mail@guojing.io (guojing.io)</author>
+      <guid>https://guojing.io/tags/debian/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>thinkpad</title>
+      <link>https://guojing.io/tags/thinkpad/</link>
+      <pubDate>Fri, 17 May 2019 00:00:00 +0000</pubDate>
+      <author>mail@guojing.io (guojing.io)</author>
+      <guid>https://guojing.io/tags/thinkpad/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>bootloader</title>
+      <link>https://guojing.io/tags/bootloader/</link>
+      <pubDate>Fri, 15 Mar 2019 00:00:00 +0000</pubDate>
+      <author>mail@guojing.io (guojing.io)</author>
+      <guid>https://guojing.io/tags/bootloader/</guid>
       <description></description>
     </item>
     
     <item>
       <title>linux</title>
       <link>https://guojing.io/tags/linux/</link>
-      <pubDate>Sun, 10 Feb 2019 00:00:00 +0000</pubDate>
-      
+      <pubDate>Fri, 15 Mar 2019 00:00:00 +0000</pubDate>
+      <author>mail@guojing.io (guojing.io)</author>
       <guid>https://guojing.io/tags/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>refind</title>
+      <link>https://guojing.io/tags/refind/</link>
+      <pubDate>Fri, 15 Mar 2019 00:00:00 +0000</pubDate>
+      <author>mail@guojing.io (guojing.io)</author>
+      <guid>https://guojing.io/tags/refind/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>app</title>
+      <link>https://guojing.io/tags/app/</link>
+      <pubDate>Sun, 10 Feb 2019 00:00:00 +0000</pubDate>
+      <author>mail@guojing.io (guojing.io)</author>
+      <guid>https://guojing.io/tags/app/</guid>
       <description></description>
     </item>
     
@@ -33,7 +71,7 @@
       <title>etcd</title>
       <link>https://guojing.io/tags/etcd/</link>
       <pubDate>Mon, 28 Jan 2019 00:00:00 +0000</pubDate>
-      
+      <author>mail@guojing.io (guojing.io)</author>
       <guid>https://guojing.io/tags/etcd/</guid>
       <description></description>
     </item>
@@ -42,8 +80,26 @@
       <title>kubernetes</title>
       <link>https://guojing.io/tags/kubernetes/</link>
       <pubDate>Mon, 28 Jan 2019 00:00:00 +0000</pubDate>
-      
+      <author>mail@guojing.io (guojing.io)</author>
       <guid>https://guojing.io/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>zsh</title>
+      <link>https://guojing.io/tags/zsh/</link>
+      <pubDate>Thu, 10 May 2018 00:00:00 +0000</pubDate>
+      <author>mail@guojing.io (guojing.io)</author>
+      <guid>https://guojing.io/tags/zsh/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ssh</title>
+      <link>https://guojing.io/tags/ssh/</link>
+      <pubDate>Fri, 20 Apr 2018 00:00:00 +0000</pubDate>
+      <author>mail@guojing.io (guojing.io)</author>
+      <guid>https://guojing.io/tags/ssh/</guid>
       <description></description>
     </item>
     

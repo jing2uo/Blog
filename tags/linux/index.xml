@@ -6,18 +6,38 @@
     <description>Recent content in linux on 郭靖 I/O</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 10 Feb 2019 00:00:00 +0000</lastBuildDate>
+    <managingEditor>mail@guojing.io (guojing.io)</managingEditor>
+    <webMaster>mail@guojing.io (guojing.io)</webMaster>
+    <lastBuildDate>Fri, 15 Mar 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://guojing.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>rEFInd 引导简介</title>
+      <link>https://guojing.io/posts/refind/</link>
+      <pubDate>Fri, 15 Mar 2019 00:00:00 +0000</pubDate>
+      <author>mail@guojing.io (guojing.io)</author>
+      <guid>https://guojing.io/posts/refind/</guid>
+      <description>&lt;p&gt;相比 GRUB，rEFInd 有更漂亮的启动界面 ( 可定制主题 )，多系统和多硬盘的自动扫描更强大。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>Linux 应用推荐</title>
       <link>https://guojing.io/posts/linux-apps/</link>
       <pubDate>Sun, 10 Feb 2019 00:00:00 +0000</pubDate>
-      
+      <author>mail@guojing.io (guojing.io)</author>
       <guid>https://guojing.io/posts/linux-apps/</guid>
       <description>&lt;p&gt;Linux 不仅是命令行强大，GUI也同样精致和高效。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>zplug 武装 zsh</title>
+      <link>https://guojing.io/posts/zplug/</link>
+      <pubDate>Thu, 10 May 2018 00:00:00 +0000</pubDate>
+      <author>mail@guojing.io (guojing.io)</author>
+      <guid>https://guojing.io/posts/zplug/</guid>
+      <description>&lt;p&gt;很多人用  &lt;a href=&#34;https://github.com/robbyrussell/oh-my-zsh&#34;&gt;oh-my-zsh&lt;/a&gt;  ，但并不是只有一种选择。&lt;/p&gt;</description>
     </item>
     
   </channel>

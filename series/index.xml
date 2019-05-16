@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Categories on 郭靖 I/O</title>
-    <link>https://guojing.io/categories/</link>
-    <description>Recent content in Categories on 郭靖 I/O</description>
+    <title>Series on 郭靖 I/O</title>
+    <link>https://guojing.io/series/</link>
+    <description>Recent content in Series on 郭靖 I/O</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <managingEditor>mail@guojing.io (guojing.io)</managingEditor>
     <webMaster>mail@guojing.io (guojing.io)</webMaster>
     
-	<atom:link href="https://guojing.io/categories/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://guojing.io/series/index.xml" rel="self" type="application/rss+xml" />
     
     
   </channel>

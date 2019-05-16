@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  
+  <meta name="author"
+        content="guojing.io"/>
+
+  
+  <meta name="description" content="很多人用 oh-my-zsh ，但并不是只有一种选择。
+"/>
+  
+
+  
+  
+  <meta name="keywords" content="Kubernetes, Devops, Python, Debian"/>
+  
+
+  
+  <link rel="canonical" href="https://guojing.io/posts/zplug/"/>
+
+  
+
+  <title>zplug 武装 zsh &middot; 郭靖 I/O</title>
+
+  <link rel="shortcut icon" href="https://guojing.io/images/favicon.ico"/>
+  <link rel="stylesheet" href="https://guojing.io/css/animate.min.css"/>
+  <link rel="stylesheet" href="https://guojing.io/css/remixicon.css"/>
+  <link rel="stylesheet" href="https://guojing.io/css/zozo.css"/>
+  <link rel="stylesheet" href="https://guojing.io/css/highlight.css"/>
+
+  
+  
+</head>
+
+<body>
+<div class="main animated">
+  <div class="nav_container animated fadeInDown">
+  <div class="site_nav" id="site_nav">
+    <ul>
+      
+      <li>
+        <a href="/">首页</a>
+      </li>
+      
+      <li>
+        <a href="/posts/">归档</a>
+      </li>
+      
+      <li>
+        <a href="/tags/">标签</a>
+      </li>
+      
+      <li>
+        <a href="/days/">日常</a>
+      </li>
+      
+      <li>
+        <a href="/about/">关于</a>
+      </li>
+      
+    </ul>
+  </div>
+  <div class="menu_icon">
+    <a id="menu_icon"><i class="remixicon-links-line"></i></a>
+  </div>
+</div>
+
+  <div class="header animated fadeInDown">
+  <div class="site_title_container">
+    <div class="site_title">
+      <h1>
+        <a href="https://guojing.io/">
+          <span>郭靖 I/O</span>
+          <img src="https://guojing.io/images/logo.png"/>
+        </a>
+      </h1>
+    </div>
+    <div class="description">
+      <p class="sub_title">文科生 / 网管 / 看书写字 / 动漫 / 不爱国</p>
+      <div class="my_socials">
+        
+        
+        <a href="https://github.com/jing2uo" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
+        
+        
+        <a href="https://guojing.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+      table{
+        border-left:1px solid #000000;border-top:1px solid #000000;
+        width: 100%;
+        word-wrap:break-word; word-break:break-all;
+      }
+      table th{
+      text-align:center;
+      }
+      table th,td{
+        border-right:1px solid #000000;border-bottom:1px solid #000000;
+      }
+</style>
+
+  <div class="content">
+    <div class="post_page">
+      <div class="post animated fadeInDown">
+        <div class="post_title post_detail_title">
+          <h2><a href='/posts/zplug/'>zplug 武装 zsh</a></h2>
+          <span class="date">2018.05.10</span>
+        </div>
+        <div class="post_content markdown"><p>很多人用  <a href="https://github.com/robbyrussell/oh-my-zsh">oh-my-zsh</a>  ，但并不是只有一种选择。</p>
+
+<p>在  <a href="https://github.com/unixorn/awesome-zsh-plugins">awesome-zsh-plugins</a>  这个项目里列了超级多的 &quot; zsh 配置框架 &quot;。 <a href="https://zplug.sh">zplug</a> 是从 <a href="https://github.com/junegunn/fzf">fzf</a>、<a href="https://github.com/junegunn/vim-plug">vim-plug</a> 这两个项目的作者 <a href="https://github.com/junegunn">junegunn</a> 那边爬到的，<code>zplug</code> 和 <code>vim-plug</code> 风格类似，而作者的另一个项目  <a href="https://github.com/b4b4r07/enhancd">enhancd</a> 也是神器，他的 <a href="https://tellme.tokyo/">blog</a> 质量也很高，值得关注（日语？用翻译的！</p>
+
+<p></br></p>
+
+<p>markdown 里贴链接还是有点费力…唠叨半天，开始用吧——</p>
+
+<h3 id="疾速体验">疾速体验</h3>
+
+<pre><code># 不想看解释，直接执行这个 shell 然后重新打开终端即可
+wget https://guojing.io/attach/zplug.sh | bash 
+</code></pre>
+
+<h3 id="安装">安装</h3>
+
+<pre><code>apt install zplug fzf        # debian
+
+# 如果发行版源里没有——
+export ZPLUG_HOME=~/.zplug
+git clone https://github.com/zplug/zplug $ZPLUG_HOME
+</code></pre>
+
+<h4 id="编辑配置文件">编辑配置文件</h4>
+
+<p><code>vim ~/.zshrc</code></p>
+
+<pre><code># Check if zplug is installed
+# if [[ $(grep -w ID /etc/os-release) == &quot;ID=debian&quot; ]]; then
+#     source /usr/share/zplug/init.zsh
+# fi
+# 以上几行简单适配了 apt 安装的 zplug
+
+source ~/.zplug/init.zsh
+
+# Misc
+export EDITOR=vim
+export GIT_EDITOR=&quot;${EDITOR}&quot;
+export PATH=$ZPLUG_HOME/bin:$PATH
+export PAGER=&quot;most&quot;
+export LANG=&quot;en_US.UTF-8&quot;
+
+# History config
+HISTSIZE=10000
+SAVEHIST=10000
+HISTFILE=$ZPLUG_HOME/zsh_history
+setopt append_history
+setopt share_history
+setopt long_list_jobs
+setopt hist_expire_dups_first
+setopt hist_ignore_dups
+setopt hist_ignore_all_dups
+setopt hist_ignore_space
+setopt hist_find_no_dups
+setopt hist_reduce_blanks
+setopt hist_verify
+setopt hist_no_store
+setopt interactivecomments
+zstyle ':completion:*' rehash true
+
+# Key binds
+bindkey '\eOA'    history-substring-search-up
+bindkey '\eOB'    history-substring-search-down
+bindkey &quot;\e[1;5D&quot; backward-word
+bindkey &quot;\e[1;5C&quot; forward-word
+bindkey  &quot;^[[H&quot;   beginning-of-line
+bindkey  &quot;^[[F&quot;   end-of-line
+
+# Zplug plugins
+zplug &quot;zsh-users/zsh-completions&quot;
+zplug &quot;zsh-users/zsh-history-substring-search&quot;
+zplug &quot;zsh-users/zsh-syntax-highlighting&quot;
+zplug &quot;zsh-users/zsh-autosuggestions&quot;
+zplug &quot;rimraf/k&quot;
+zplug &quot;b4b4r07/enhancd&quot;, use:init.sh
+zplug &quot;b4b4r07/emoji-cli&quot;
+zplug &quot;mrowa44/emojify&quot;, as:command
+zplug &quot;k4rthik/git-cal&quot;, as:command
+zplug &quot;lib/completion&quot;, from:oh-my-zsh
+zplug &quot;plugins/colored-man-pages&quot;, from:oh-my-zsh
+zplug &quot;plugins/man&quot;, from:oh-my-zsh
+zplug &quot;plugins/sudo&quot;, from:oh-my-zsh
+zplug &quot;plugins/encode64&quot;, from:oh-my-zsh
+zplug 'plugins/extract', from:oh-my-zsh
+zplug &quot;themes/half-life&quot;, from:oh-my-zsh, as:theme
+
+zplug &quot;junegunn/fzf&quot;
+zplug &quot;junegunn/fzf-bin&quot;, \
+    from:gh-r, \
+    as:command, \
+    rename-to:fzf, \
+    use:&quot;*linux*amd64*&quot;
+source $ZPLUG_HOME/repos/junegunn/fzf/shell/completion.zsh
+source $ZPLUG_HOME/repos/junegunn/fzf/shell/key-bindings.zsh
+
+# debian 使用 apt install fzf 适配以下几行，删除上面配置 fzf 的部分即可
+# if [[ -e /usr/share/doc/fzf/examples/key-bindings.zsh ]]; then
+#   source /usr/share/doc/fzf/examples/key-bindings.zsh
+# fi
+
+if zplug check b4b4r07/enhancd; then
+    export ENHANCD_FILTER=fzf-tmux
+fi
+
+# Install packages that have not been installed yet
+if ! zplug check --verbose; then
+    printf &quot;Install? [y/N]: &quot;
+    if read -q; then
+        echo; zplug install
+    else
+        echo
+    fi
+fi
+zplug load
+</code></pre>
+
+<p>然后 <code>source ~/.zshrc</code>  开始体验吧</p>
+
+<h4 id="有哪些点不错">有哪些点不错？</h4>
+
+<ul>
+<li>ctrl + r 唤起 fzf 作为搜索后端的历史记录选单，支持模糊匹配</li>
+<li>cd 直接回车，可超快速的进入曾经访问过的文件夹</li>
+<li>x   ~/压缩包/路径/xxx.tar  解压文件，支持所有格式</li>
+<li>k  比 ls 、ll 更快的列出文件夹下内容</li>
+<li>输入命令前缀上下键可快速定位 &quot; 相关历史 ''，比如输入 ssh 上下键会翻出所有登陆过的主机</li>
+<li>可以通过 zplug 指令自动下载 github 上任意 release 文件到本地</li>
+<li>酷！大部分人都用 oh-my-zsh 的时候，我们完全定制了自己的配置 ~</li>
+</ul></div>
+        <div class="post_footer">
+          
+          <div class="meta">
+            <div class="info">
+              <span class="field tags">
+                <i class="remixicon-stack-line"></i>
+                
+                <a href="https://guojing.io/tags/zsh/">zsh</a>
+                
+                <a href="https://guojing.io/tags/linux/">linux</a>
+                
+              </span>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      
+      
+    </div>
+  </div>
+  <a id="back_to_top" href="#" class="back_to_top"><span>△</span></a>
+</div>
+<footer class="footer">
+  <div class="footer_slogan">
+    <span>The quieter you become, the more you can hear.</span>
+  </div>
+</footer>
+
+
+
+<script src="https://guojing.io/js/jquery-3.3.1.min.js"></script>
+<script src="https://guojing.io/js/zozo.js"></script>
+<script src="https://guojing.io/js/highlight.pack.js"></script>
+<link  href="https://guojing.io/css/fancybox.min.css" rel="stylesheet">
+<script src="https://guojing.io/js/fancybox.min.js"></script>
+
+<script>hljs.initHighlightingOnLoad()</script>
+
+
+  <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+
+
+
+
+
+
+</body>
+</html>

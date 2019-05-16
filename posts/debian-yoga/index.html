@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  
+  <meta name="author"
+        content="guojing.io"/>
+
+  
+  <meta name="description" content="两年前的米本是 8G 内存，最近不太够用了，咸鱼淘了个 x1 yoga，又简单鼓捣了一下桌面。
+"/>
+  
+
+  
+  
+  <meta name="keywords" content="Kubernetes, Devops, Python, Debian"/>
+  
+
+  
+  <link rel="canonical" href="https://guojing.io/posts/debian-yoga/"/>
+
+  
+
+  <title>Debian in X1 Yoga 2018 &middot; 郭靖 I/O</title>
+
+  <link rel="shortcut icon" href="https://guojing.io/images/favicon.ico"/>
+  <link rel="stylesheet" href="https://guojing.io/css/animate.min.css"/>
+  <link rel="stylesheet" href="https://guojing.io/css/remixicon.css"/>
+  <link rel="stylesheet" href="https://guojing.io/css/zozo.css"/>
+  <link rel="stylesheet" href="https://guojing.io/css/highlight.css"/>
+
+  
+  
+</head>
+
+<body>
+<div class="main animated">
+  <div class="nav_container animated fadeInDown">
+  <div class="site_nav" id="site_nav">
+    <ul>
+      
+      <li>
+        <a href="/">首页</a>
+      </li>
+      
+      <li>
+        <a href="/posts/">归档</a>
+      </li>
+      
+      <li>
+        <a href="/tags/">标签</a>
+      </li>
+      
+      <li>
+        <a href="/days/">日常</a>
+      </li>
+      
+      <li>
+        <a href="/about/">关于</a>
+      </li>
+      
+    </ul>
+  </div>
+  <div class="menu_icon">
+    <a id="menu_icon"><i class="remixicon-links-line"></i></a>
+  </div>
+</div>
+
+  <div class="header animated fadeInDown">
+  <div class="site_title_container">
+    <div class="site_title">
+      <h1>
+        <a href="https://guojing.io/">
+          <span>郭靖 I/O</span>
+          <img src="https://guojing.io/images/logo.png"/>
+        </a>
+      </h1>
+    </div>
+    <div class="description">
+      <p class="sub_title">文科生 / 网管 / 看书写字 / 动漫 / 不爱国</p>
+      <div class="my_socials">
+        
+        
+        <a href="https://github.com/jing2uo" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
+        
+        
+        <a href="https://guojing.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+      table{
+        border-left:1px solid #000000;border-top:1px solid #000000;
+        width: 100%;
+        word-wrap:break-word; word-break:break-all;
+      }
+      table th{
+      text-align:center;
+      }
+      table th,td{
+        border-right:1px solid #000000;border-bottom:1px solid #000000;
+      }
+</style>
+
+  <div class="content">
+    <div class="post_page">
+      <div class="post animated fadeInDown">
+        <div class="post_title post_detail_title">
+          <h2><a href='/posts/debian-yoga/'>Debian in X1 Yoga 2018</a></h2>
+          <span class="date">2019.05.17</span>
+        </div>
+        <div class="post_content markdown"><p>两年前的米本是 8G 内存，最近不太够用了，咸鱼淘了个 x1 yoga，又简单鼓捣了一下桌面。</p>
+
+<p><br/></p>
+
+<p>大二在惠普本上第一次装好 debian 之后，多年来主力系统就是它。除了那个本子当初不会挑是 A 卡外，再后来自己组的台式机和再买的笔记本，就没用过独显，所以从米本里把 btrfs 子卷直接挪到 yoga 的硬盘里就能开机，绝大部分功能都正常的。</p>
+
+<p><br/></p>
+
+<p>找个 Ubuntu 的镜像做 U 盘启动（虽然不用 Ubuntu，但它的安装镜像对硬件的兼容是很好的，无线一般也能直接用，进预览模式后，我们就可以像进 Windows 的 PE 一样为所欲为了。</p>
+
+<h4 id="磁盘规划">磁盘规划</h4>
+
+<pre><code># Device          Size   Type                   Filesystem  mount 
+  /dev/nvme0n1p1  200M   Microsoft basic data   fat32       /boot/efi
+  /dev/nvme0n1p2  100G   Linux filesystem       btrfs       /
+  /dev/nvme0n1p3  130G   Linux filesystem       xfs         /home
+  /dev/nvme0n1p4  8.3G   Linux swap             swap        none
+
+# /dev/nvme0n1p2 下有两子卷
+sudo mount /dev/nvme0n1p2 /mnt
+sudo btrfs subvolume create /mnt/@
+sudo btrfs subvolume list /mnt
+    ID 296 gen 14039 top level 5 path @
+
+# blkid 查看 UUID
+/dev/nvme0n1p1: LABEL_FATBOOT=&quot;EFI&quot; LABEL=&quot;EFI&quot; UUID=&quot;23B6-CFE9&quot; TYPE=&quot;vfat&quot; PARTUUID=&quot;91c46c72-56e4-46e3-8f36-9d58e09da101&quot;
+/dev/nvme0n1p2: LABEL=&quot;ROOT&quot; UUID=&quot;6afa1ff5-9380-4096-b753-d7ff736f73c5&quot; UUID_SUB=&quot;a3f762ca-7eb8-473b-bc6a-65ec36337aec&quot; TYPE=&quot;btrfs&quot; PTTYPE=&quot;dos&quot; PARTUUID=&quot;21937dbb-ef59-4c72-9b1b-fc32046d3fc8&quot;
+/dev/nvme0n1p3: LABEL=&quot;HOME&quot; UUID=&quot;549ba4e8-7ec5-4fcb-84b7-7bbcddd4daf4&quot; TYPE=&quot;xfs&quot; PARTUUID=&quot;bccbcdd5-d0be-4dfe-ae77-0179193a97c6&quot;
+/dev/nvme0n1p4: LABEL=&quot;SWAP&quot; UUID=&quot;cbda5127-9a61-4906-b525-0d083e0aaa81&quot; TYPE=&quot;swap&quot; PARTUUID=&quot;0984d5e1-a868-4aea-b559-4909ddec0163&quot;
+</code></pre>
+
+<h4 id="安装-系统">&quot; 安装 &quot; 系统</h4>
+
+<p>我直接用了米本的备份。如果初次安装，我们可以用 <code>debootstrap</code> 这个工具——</p>
+
+<pre><code>apt update &amp;&amp; apt install debootstrap
+mount /dev/nvme0n1p2 -o subvol=@,compress=lzo,ssd /mnt
+mkdir -p /mnt/home
+mount /dev/nvme0n1p3 /mnt/home
+debootstrap sid /mnt http://mirrors.ustc.edu.cn/debian
+.....
+# 耐心等结束吧
+</code></pre>
+
+<h4 id="进入刚刚安装的系统">进入刚刚安装的系统</h4>
+
+<pre><code>~ λ cat /usr/local/bin/chroot2dir   # 把下面内容丢进脚本
+
+#!/usr/bin/env bash
+DIR=$1
+sudo mount -o bind /dev $DIR/dev
+sudo mount -o bind /dev/pts $DIR/dev/pts
+sudo mount -t sysfs /sys $DIR/sys
+sudo mount -t proc /proc $DIR/proc
+sudo cp /etc/resolv.conf $DIR/etc/resolv.conf
+sudo chroot $DIR
+</code></pre>
+
+<pre><code>chroot2dir /mnt
+apt install bash-completion zsh neovim \
+            xserver-xorg-input-evdev \
+            xserver-xorg-input-synaptics \
+            xserver-xorg-input-evdev \
+            xserver-xorg-input-kbd \
+            xserver-xorg-input-wacom \
+            xserver-xorg-input-mouse \
+            xserver-xorg-video-intel \
+            lightdm tilix mate \
+            network-manager network-manager-gnome blueman
+# 这里可以装完所有你需要的软件
+</code></pre>
+
+<p>更多好用的 app 可以参考：   <a href="/posts/linux-apps/">Linux 应用推荐</a></p>
+
+<h4 id="用户和密码">用户和密码</h4>
+
+<pre><code>passwd root
+adduser xxxx
+</code></pre>
+
+<h4 id="etc-fstab-文件">/etc/fstab 文件</h4>
+
+<pre><code># &lt;file system&gt;                             &lt;dir&gt;     &lt;type&gt; &lt;options&gt; &lt;dump&gt; &lt;pass&gt;
+# 根据 blkid 执行结果来改
+UUID=&quot;23B6-CFE9&quot;                            /boot/efi vfat rw,relatime 0 0
+UUID=&quot;6afa1ff5-9380-4096-b753-d7ff736f73c5&quot; /         btrfs defaults,rw,relatime,noatime,compress=lzo,ssd,discard,autodefrag,space_cache,subvolid=257,subvol=@ 0 1
+UUID=&quot;549ba4e8-7ec5-4fcb-84b7-7bbcddd4daf4&quot; /home     xfs defaults,rw,noatime,relatime,attr2,inode64,noquota 0 1
+UUID=&quot;cbda5127-9a61-4906-b525-0d083e0aaa81&quot; swap      swap defaults,discard,pri=30 0 0
+</code></pre>
+
+<h4 id="引导">引导</h4>
+
+<p>参考： <a href="/posts/refind/">rEFInd 引导简介</a>   即可</p>
+
+<h4 id="针对-yoga-的优化">针对 yoga 的优化</h4>
+
+<ul>
+<li><p>参考  <a href="https://github.com/ryankhart/x1carbon2018s3#generating-the-override">ArchLinux wiki</a>  激活 S3</p></li>
+
+<li><p>屏幕旋转后触摸功能没有转到相应方向，网上都是自己写脚本转换矩阵，但 debian 直接安装</p></li>
+</ul>
+
+<p><code>x11-touchscreen-calibrator</code> 这个包就好了。</p>
+
+<ul>
+<li><p>对触摸屏支持比较好的应用，可以拿来写写画画：<code>apt install xournal mypaint</code></p></li>
+
+<li><p>风扇控制</p>
+
+<pre><code>apt install lm-sensors thinkfan    # 都 root 执行
+sensors-detect                     # 统统 yes
+  
+find /sys/devices -type f -name &quot;temp*_input&quot; | \
+   grep core | awk 'NF{print &quot;hwmon &quot; $0}' &gt;&gt; /etc/thinkfan.conf
+  
+systemctl enable thinkfan &amp;&amp; systemctl start thinkfan
+</code></pre></li>
+</ul>
+
+<h4 id="总结">总结</h4>
+
+<p>debootstrap 其实很类似 ArchLinux 的部署过程——甚至更好用 : ）或者说，基本上只要是 Linux 都可以用差不多的方式处理，尤其是各大发行版都有了官方的 docker 镜像，在拿到包含了包管理器的最小压缩包之后，chroot 进去换源然后一通 <code>apt (dnf  pacman  emerge  apk  zypper)</code> 即可，包名不一致也就是一个 <code>apt search</code> 的工作量 。</p>
+
+<p></br></p>
+
+<p><center> <img src="/images/screen-preview.png" alt="screen-preview.png" /> </center></p>
+
+<p></br></p>
+
+<p>Happy  Hacking：）</p></div>
+        <div class="post_footer">
+          
+          <div class="meta">
+            <div class="info">
+              <span class="field tags">
+                <i class="remixicon-stack-line"></i>
+                
+                <a href="https://guojing.io/tags/debian/">debian</a>
+                
+                <a href="https://guojing.io/tags/thinkpad/">thinkpad</a>
+                
+              </span>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      
+      
+    </div>
+  </div>
+  <a id="back_to_top" href="#" class="back_to_top"><span>△</span></a>
+</div>
+<footer class="footer">
+  <div class="footer_slogan">
+    <span>The quieter you become, the more you can hear.</span>
+  </div>
+</footer>
+
+
+
+<script src="https://guojing.io/js/jquery-3.3.1.min.js"></script>
+<script src="https://guojing.io/js/zozo.js"></script>
+<script src="https://guojing.io/js/highlight.pack.js"></script>
+<link  href="https://guojing.io/css/fancybox.min.css" rel="stylesheet">
+<script src="https://guojing.io/js/fancybox.min.js"></script>
+
+<script>hljs.initHighlightingOnLoad()</script>
+
+
+  <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+
+
+
+
+
+
+</body>
+</html>

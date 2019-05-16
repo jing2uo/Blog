@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>郭靖 I/O</title>
@@ -6,45 +5,1304 @@
     <description>Recent content on 郭靖 I/O</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 16 May 2019 23:18:19 +0800</lastBuildDate>
+    <managingEditor>mail@guojing.io (guojing.io)</managingEditor>
+    <webMaster>mail@guojing.io (guojing.io)</webMaster>
+    <lastBuildDate>Fri, 17 May 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://guojing.io/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="https://guojing.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>About</title>
-      <link>https://guojing.io/about/</link>
-      <pubDate>Thu, 16 May 2019 23:18:19 +0800</pubDate>
-      
-      <guid>https://guojing.io/about/</guid>
-      <description></description>
+      <title>Debian in X1 Yoga 2018</title>
+      <link>https://guojing.io/posts/debian-yoga/</link>
+      <pubDate>Fri, 17 May 2019 00:00:00 +0000</pubDate>
+      <author>guojing.io (mail@guojing.io)</author>
+      <guid>https://guojing.io/posts/debian-yoga/</guid>
+      <description>&lt;p&gt;两年前的米本是 8G 内存，最近不太够用了，咸鱼淘了个 x1 yoga，又简单鼓捣了一下桌面。&lt;/p&gt;
+
+&lt;p&gt;&lt;br/&gt;&lt;/p&gt;
+
+&lt;p&gt;大二在惠普本上第一次装好 debian 之后，多年来主力系统就是它。除了那个本子当初不会挑是 A 卡外，再后来自己组的台式机和再买的笔记本，就没用过独显，所以从米本里把 btrfs 子卷直接挪到 yoga 的硬盘里就能开机，绝大部分功能都正常的。&lt;/p&gt;
+
+&lt;p&gt;&lt;br/&gt;&lt;/p&gt;
+
+&lt;p&gt;找个 Ubuntu 的镜像做 U 盘启动（虽然不用 Ubuntu，但它的安装镜像对硬件的兼容是很好的，无线一般也能直接用，进预览模式后，我们就可以像进 Windows 的 PE 一样为所欲为了。&lt;/p&gt;
+
+&lt;h4 id=&#34;磁盘规划&#34;&gt;磁盘规划&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;# Device          Size   Type                   Filesystem  mount 
+  /dev/nvme0n1p1  200M   Microsoft basic data   fat32       /boot/efi
+  /dev/nvme0n1p2  100G   Linux filesystem       btrfs       /
+  /dev/nvme0n1p3  130G   Linux filesystem       xfs         /home
+  /dev/nvme0n1p4  8.3G   Linux swap             swap        none
+
+# /dev/nvme0n1p2 下有两子卷
+sudo mount /dev/nvme0n1p2 /mnt
+sudo btrfs subvolume create /mnt/@
+sudo btrfs subvolume list /mnt
+    ID 296 gen 14039 top level 5 path @
+
+# blkid 查看 UUID
+/dev/nvme0n1p1: LABEL_FATBOOT=&amp;quot;EFI&amp;quot; LABEL=&amp;quot;EFI&amp;quot; UUID=&amp;quot;23B6-CFE9&amp;quot; TYPE=&amp;quot;vfat&amp;quot; PARTUUID=&amp;quot;91c46c72-56e4-46e3-8f36-9d58e09da101&amp;quot;
+/dev/nvme0n1p2: LABEL=&amp;quot;ROOT&amp;quot; UUID=&amp;quot;6afa1ff5-9380-4096-b753-d7ff736f73c5&amp;quot; UUID_SUB=&amp;quot;a3f762ca-7eb8-473b-bc6a-65ec36337aec&amp;quot; TYPE=&amp;quot;btrfs&amp;quot; PTTYPE=&amp;quot;dos&amp;quot; PARTUUID=&amp;quot;21937dbb-ef59-4c72-9b1b-fc32046d3fc8&amp;quot;
+/dev/nvme0n1p3: LABEL=&amp;quot;HOME&amp;quot; UUID=&amp;quot;549ba4e8-7ec5-4fcb-84b7-7bbcddd4daf4&amp;quot; TYPE=&amp;quot;xfs&amp;quot; PARTUUID=&amp;quot;bccbcdd5-d0be-4dfe-ae77-0179193a97c6&amp;quot;
+/dev/nvme0n1p4: LABEL=&amp;quot;SWAP&amp;quot; UUID=&amp;quot;cbda5127-9a61-4906-b525-0d083e0aaa81&amp;quot; TYPE=&amp;quot;swap&amp;quot; PARTUUID=&amp;quot;0984d5e1-a868-4aea-b559-4909ddec0163&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;安装-系统&#34;&gt;&amp;quot; 安装 &amp;quot; 系统&lt;/h4&gt;
+
+&lt;p&gt;我直接用了米本的备份。如果初次安装，我们可以用 &lt;code&gt;debootstrap&lt;/code&gt; 这个工具——&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;apt update &amp;amp;&amp;amp; apt install debootstrap
+mount /dev/nvme0n1p2 -o subvol=@,compress=lzo,ssd /mnt
+mkdir -p /mnt/home
+mount /dev/nvme0n1p3 /mnt/home
+debootstrap sid /mnt http://mirrors.ustc.edu.cn/debian
+.....
+# 耐心等结束吧
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;进入刚刚安装的系统&#34;&gt;进入刚刚安装的系统&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;~ λ cat /usr/local/bin/chroot2dir   # 把下面内容丢进脚本
+
+#!/usr/bin/env bash
+DIR=$1
+sudo mount -o bind /dev $DIR/dev
+sudo mount -o bind /dev/pts $DIR/dev/pts
+sudo mount -t sysfs /sys $DIR/sys
+sudo mount -t proc /proc $DIR/proc
+sudo cp /etc/resolv.conf $DIR/etc/resolv.conf
+sudo chroot $DIR
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;chroot2dir /mnt
+apt install bash-completion zsh neovim \
+            xserver-xorg-input-evdev \
+            xserver-xorg-input-synaptics \
+            xserver-xorg-input-evdev \
+            xserver-xorg-input-kbd \
+            xserver-xorg-input-wacom \
+            xserver-xorg-input-mouse \
+            xserver-xorg-video-intel \
+            lightdm tilix mate \
+            network-manager network-manager-gnome blueman
+# 这里可以装完所有你需要的软件
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;更多好用的 app 可以参考：   &lt;a href=&#34;https://guojing.io/posts/linux-apps/&#34;&gt;Linux 应用推荐&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;用户和密码&#34;&gt;用户和密码&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;passwd root
+adduser xxxx
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;etc-fstab-文件&#34;&gt;/etc/fstab 文件&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;# &amp;lt;file system&amp;gt;                             &amp;lt;dir&amp;gt;     &amp;lt;type&amp;gt; &amp;lt;options&amp;gt; &amp;lt;dump&amp;gt; &amp;lt;pass&amp;gt;
+# 根据 blkid 执行结果来改
+UUID=&amp;quot;23B6-CFE9&amp;quot;                            /boot/efi vfat rw,relatime 0 0
+UUID=&amp;quot;6afa1ff5-9380-4096-b753-d7ff736f73c5&amp;quot; /         btrfs defaults,rw,relatime,noatime,compress=lzo,ssd,discard,autodefrag,space_cache,subvolid=257,subvol=@ 0 1
+UUID=&amp;quot;549ba4e8-7ec5-4fcb-84b7-7bbcddd4daf4&amp;quot; /home     xfs defaults,rw,noatime,relatime,attr2,inode64,noquota 0 1
+UUID=&amp;quot;cbda5127-9a61-4906-b525-0d083e0aaa81&amp;quot; swap      swap defaults,discard,pri=30 0 0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;引导&#34;&gt;引导&lt;/h4&gt;
+
+&lt;p&gt;参考： &lt;a href=&#34;https://guojing.io/posts/refind/&#34;&gt;rEFInd 引导简介&lt;/a&gt;   即可&lt;/p&gt;
+
+&lt;h4 id=&#34;针对-yoga-的优化&#34;&gt;针对 yoga 的优化&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;参考  &lt;a href=&#34;https://github.com/ryankhart/x1carbon2018s3#generating-the-override&#34;&gt;ArchLinux wiki&lt;/a&gt;  激活 S3&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;屏幕旋转后触摸功能没有转到相应方向，网上都是自己写脚本转换矩阵，但 debian 直接安装&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;code&gt;x11-touchscreen-calibrator&lt;/code&gt; 这个包就好了。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;对触摸屏支持比较好的应用，可以拿来写写画画：&lt;code&gt;apt install xournal mypaint&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;风扇控制&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;apt install lm-sensors thinkfan    # 都 root 执行
+sensors-detect                     # 统统 yes
+  
+find /sys/devices -type f -name &amp;quot;temp*_input&amp;quot; | \
+   grep core | awk &#39;NF{print &amp;quot;hwmon &amp;quot; $0}&#39; &amp;gt;&amp;gt; /etc/thinkfan.conf
+  
+systemctl enable thinkfan &amp;amp;&amp;amp; systemctl start thinkfan
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;总结&#34;&gt;总结&lt;/h4&gt;
+
+&lt;p&gt;debootstrap 其实很类似 ArchLinux 的部署过程——甚至更好用 : ）或者说，基本上只要是 Linux 都可以用差不多的方式处理，尤其是各大发行版都有了官方的 docker 镜像，在拿到包含了包管理器的最小压缩包之后，chroot 进去换源然后一通 &lt;code&gt;apt (dnf  pacman  emerge  apk  zypper)&lt;/code&gt; 即可，包名不一致也就是一个 &lt;code&gt;apt search&lt;/code&gt; 的工作量 。&lt;/p&gt;
+
+&lt;p&gt;&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;center&gt; &lt;img src=&#34;https://guojing.io/images/screen-preview.png&#34; alt=&#34;screen-preview.png&#34; /&gt; &lt;/center&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;Happy  Hacking：）&lt;/p&gt;</description>
     </item>
     
     <item>
-      <title>关于 996</title>
-      <link>https://guojing.io/days/996/</link>
-      <pubDate>Tue, 02 Apr 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://guojing.io/days/996/</guid>
-      <description>我第一次听说“你见过凌晨四点半的洛杉矶”的故事，以及在图书馆偷闲看完《哈佛凌晨四点半》的时候，心里没有什么特殊的感觉——关于努力拼搏和成功之类。在我的记忆里，多的是”四点半“的凌晨：爷爷好多年来，总在</description>
+      <title>rEFInd 引导简介</title>
+      <link>https://guojing.io/posts/refind/</link>
+      <pubDate>Fri, 15 Mar 2019 00:00:00 +0000</pubDate>
+      <author>guojing.io (mail@guojing.io)</author>
+      <guid>https://guojing.io/posts/refind/</guid>
+      <description>&lt;p&gt;相比 GRUB，rEFInd 有更漂亮的启动界面 ( 可定制主题 )，多系统和多硬盘的自动扫描更强大。&lt;/p&gt;
+
+&lt;p&gt;&lt;br/&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;center&gt;   &lt;img src=&#34;https://guojing.io/images/refind-preview.png&#34; alt=&#34;preview.png&#34; /&gt;  &lt;/center&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;br/&gt;&lt;/p&gt;
+
+&lt;p&gt;贴一下 &lt;a href=&#34;https://www.rodsbooks.com/refind/&#34;&gt;官网&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;安装&#34;&gt;安装&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;# 各个发行版基本上源里都有
+apt install refind
+pacman install refind
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;暴力一点的话：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;下载这个文件   &lt;a href=&#34;https://guojing.io/attach/refind.zip&#34;&gt; refind.zip &lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;解压扔进 /boot/efi/EFI/ 目录内( 假定 &lt;em&gt;esp&lt;/em&gt;  分区挂载在 /boot/efi/ )&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;手动添加 UEFI 启动项, 需要用到 efibootmgr 这个工具——&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#  1. 添加
+sudo efibootmgr -c -d /dev/sda -p 1 -L rEFInd -l /EFI/refind/refind_x64.efi
+#                     指定磁盘  分区  启动项名称     refind_x64.efi 的文件路径
+#  2. 查看目前有的所有启动项，返回结果类似 “ Boot0001*  rEFInd ”
+sudo efibootmgr
+#  3. 设置下次从 rEFInd 启动，假设 “ Boot0001*  rEFInd ”
+sudo efibootmgr -n 0001
+#  4. 删除，0001 从上一条返回结果中查看，只取数字即可
+sudo efibootmgr -b 0001 -B
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Done ~&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;修改主题及启动项配置&#34;&gt;修改主题及启动项配置&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;~ λ cat /boot/efi/EFI/refind/refind.conf&lt;/code&gt;    ( 我的配置 )&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#
+# refind.conf
+# Configuration file for the rEFInd boot menu
+#
+
+# 在选择系统的界面停留多久
+timeout 10
+##  主题相关，可以去 github 翻自己喜欢的风格
+hideui singleuser,hints,arrows,label
+icons_dir themes/refind-black/icons
+banner themes/refind-black/background.png
+banner_scale fillscreen
+selection_big   themes/refind-black/selection_big.png
+selection_small themes/refind-black/selection_small.png
+showtools shutdown
+# 屏蔽 rEFInd 自带的一些工具，只显示关机按钮
+## 主题相关
+
+# 控制 rEFInd 扫描不扫描哪些分区
+also_scan_dirs boot,ESP2:EFI/linux/kernels
+# @/boot 用来屏蔽 btrfs 子卷，否则启动选单会出现两个选项(包含下面要自定义的)
+dont_scan_dirs @/boot,ESP:/EFI/boot,EFI/Dell,EFI/memtest86
+
+# 第一个系统选项，这里的排列会影响启动画面展示顺序
+menuentry &amp;quot;Debian Sid&amp;quot; {
+# 命名一下
+    icon \EFI\refind\icons\os_debian.png
+# 自定义一个 logo
+    volume ROOT
+# 系统所在分区名称，这儿是一个 btrfs 分区
+    loader /@/vmlinuz
+# /@/ 表示 ROOT 分区里叫 @ 的 btrfs 子卷
+    initrd /@/boot/acpi_override
+    initrd /@/initrd.img
+# 表示 ROOT 分区里 @ 子卷下的 boot 目录及文件
+    options &amp;quot;root=LABEL=ROOT rootflags=subvol=@ rw quiet splash i915.enable_guc=3 mem_sleep_default=deep cgroup_enable=memory swapaccount=1&amp;quot;
+# 内核启动参数，不像 GRUB 是改 /etc/default/grub，根据自己需要修改
+# 下面是定义在启动选单页面按 F2 进入二级菜单时显示的项目
+# 启动上一个内核( debian 官方会在升级内核时做个软链接到 *.old )
+    submenuentry &amp;quot;Boot using old initrd.img&amp;quot; {
+            loader   /@/vmlinuz.old
+            initrd   /@/boot/acpi_override
+            initrd   /@/initrd.img.old
+    }
+# 进入单用户模式
+    submenuentry &amp;quot;Boot to single-user mode&amp;quot; {
+            options &amp;quot;root=PARTLABEL=ROOT rootflags=subvol=@ rw single&amp;quot;
+    }
+# 进入终端模式
+    submenuentry &amp;quot;Boot to terminal&amp;quot; {
+            add_options &amp;quot;systemd.unit=multi-user.target&amp;quot;
+    }
+
+}
+
+menuentry &amp;quot;Arch Linux&amp;quot; {
+    icon     /EFI/refind/icons/os_arch.png
+    volume   ROOT
+    loader   /@arch/boot/vmlinuz-linux
+    initrd   /@arch/boot/intel-ucode.img
+    initrd   /@arch/boot/acpi_override
+    initrd   /@arch/boot/initramfs-linux.img
+    options  &amp;quot;root=LABEL=ROOT rootflags=subvol=@arch quiet splash rw add_efi_memmap  i915.enable_guc=3 mem_sleep_default=deep&amp;quot;
+    submenuentry &amp;quot;Boot using fallback initramfs&amp;quot; {
+        initrd /@arch/boot/initramfs-linux-fallback.img
+    }
+    submenuentry &amp;quot;Boot to terminal&amp;quot; {
+        add_options &amp;quot;systemd.unit=multi-user.target&amp;quot;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;快速去掉上面的 &amp;quot; 傻x &amp;quot; 注释，保存到 oooo 文件：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;grep -v ^# oooo &amp;gt; refind.conf
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;windows-使用&#34;&gt;Windows 使用&lt;/h3&gt;
+
+&lt;p&gt;若是 Windows + Linux 的多系统组合，在 Win 或 Linux 里配好就不需要管另一个了。&lt;/p&gt;
+
+&lt;p&gt;&lt;br/&gt;&lt;/p&gt;
+
+&lt;p&gt;下载  &lt;a href=&#34;https://guojing.io/attach/refind.zip&#34;&gt; refind.zip &lt;/a&gt;  解压丢进 efi 分区，efi 在 Windows 里不能直接挂载，我们需要  &lt;strong&gt;bootice&lt;/strong&gt;  这个神器！磁盘管理里给 efi 分区分配盘符后就能复制进去。然后在 UEFI 标签下添加启动项，指定好分区和 efi 文件位置即可。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Linux 应用推荐</title>
       <link>https://guojing.io/posts/linux-apps/</link>
       <pubDate>Sun, 10 Feb 2019 00:00:00 +0000</pubDate>
-      
+      <author>guojing.io (mail@guojing.io)</author>
       <guid>https://guojing.io/posts/linux-apps/</guid>
-      <description>&lt;p&gt;Linux 不仅是命令行强大，GUI也同样精致和高效。&lt;/p&gt;</description>
+      <description>&lt;p&gt;Linux 不仅是命令行强大，GUI也同样精致和高效。&lt;/p&gt;
+
+&lt;h2 id=&#34;gui-应用&#34;&gt;GUI 应用&lt;/h2&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&#34;center&#34;&gt;应用&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;简介&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;albert&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;快速启动工具，类似 Alfred ，支持插件增强&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;appmenu&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;全局菜单，mate 和 xfce 可用，参考 macOS 中效果&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;bleachbit&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;磁盘清理工具，可删除不需要的语言文件及其他&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;calibre&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;电子书管理工具，转换格式、编辑内容很强大&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;copyQ&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;剪切板管理工具，支持多标签和固定条目&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;dbeaver&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;开源的数据库管理工具，支持的类型超全&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;deadbeef&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;音乐播放器，Linux 下的 foorbar2k&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;timeshift&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;btrfs 快照和 rsync 定时备份工具，比时光机还强大&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;draw.io&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;画流程图架构图等等，有桌面版的&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;enpass&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;密码管理器，配合浏览器插件很好用，Linux 下高级版免费&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;firefox&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;火狐浏览器，container 标签页戳中我痛点&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;flameshot&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;最强的截屏工具，没有之一了&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;gitkraken&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;git图形界面工具，配色很赞&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;goldendict&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;离线翻译工具，找好词典很好用，可以发音&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;gparted&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;分区工具，磁盘扩缩容图形应用方便&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;gpick&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;取色工具，查询颜色RGB值&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;insomnia&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;REST client工具，主题多，布局合理&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;meld&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;文件对比工具&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;mpv&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;看不到按钮但配置超多功能很强的播放器&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;netease-music&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;网易云音乐的 Linux 版，国内唯一的良心啦&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;peek&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;录制 gif，分享某些操作时打字不如图、图不如gif&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;pencil&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;原型设计工具，我拿来画极简风格的网页图（不会复杂的&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;plank&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;dock底栏，参考 macOS 底部的效果&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;playonlinux&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;Wine 开源前端，很方便&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;quiterss&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;RSS订阅工具，三栏布局经典好用&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;redshift-gtk&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;护眼，类似f.lux，使用 geoclue 获取位置&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;remmina&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;RDP VNC 远程连接工具，支持 SSH 隧道很赞&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;screenkey&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;敲键盘时像字幕一样回显输入，分享时适合使用&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;seahorse&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;密码和密钥管理的前端，很方便&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;telegram&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;据说隐私保护很好的聊天工具，技术群还蛮多的&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;tilix&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;终端，不用 tmux 也能方便的切分终端，参考 macOS 里 iTerm2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;typora&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;所见所得的 markdown 编辑器，表格插入和编辑实在太爽&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;virtualbox&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;轻量但功能很强的虚拟机，和 vagrant 很配&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;visualstudio code&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;微软出的编辑器，有好多奇怪的插件（大雾&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;obsstudio&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;录屏录直播什么的，比 peek 更适合长时间录制，文件很小&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;wireshark&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;抓包神器（一直不会用&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;wps&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;一般人用来替代 Office 足够了（比如我&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;zeal&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;文档查看工具，用了 dash 的资源&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;zenmap&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;nmap前端，集合了一些常用的参数&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;zim&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;维护自己的 Wiki ，我拿来替换印象笔记了&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;mypaint&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;有数位板或者触摸屏可以拿来画画&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;claws mail&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;邮箱管理，装插件后 systemtray 和通知消息更好用&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;vlc&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;跨平台很好用的播放器了&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;xournal&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;有数位板或者触摸屏可以拿来写写提纲理理思路，支持导出pdf&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;zoom&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;视频会议，分享屏幕，很不错&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&#34;cli应用&#34;&gt;CLI应用&lt;/h2&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&#34;center&#34;&gt;应用&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;简介&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;ansible&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;批量远程管理主机，个人最爱&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;aria2c&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;下载工具，有一堆下度盘的教程&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;asciinema&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;终端录屏，适合分享命令行操作&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;csysdig&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;高级的系统监控工具&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;htop&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;top 适合人类使用版&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;gotop&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;类似 htop，色彩更鲜艳，晒桌面专用&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;httpie&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;REST client，高级版curl&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;iperf&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;网速测试&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;jq&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;json 格式化输出&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;mycli&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;MySQL 管理工具，自动补全很爽&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;neofetch&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;查看系统信息&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;neovim&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;21世纪的 vim&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;nmap&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;端口扫描器&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;pgcli&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;postgresql 管理工具&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;shellcheck&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;shell脚本检查&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;terraform&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;管理各大云基础设施&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;yamllint&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;yaml校验&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;youtube-dl&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;视频下载，可以下B站&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;zplug&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;zsh插件配置管理&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;dive&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;可以查看 docker 镜像的各个 layer&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;ripgrep&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;Rust 写的快速检索工具&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;privoxy&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;本地代理工具，支持 socks 转 http，支持过滤规则&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;</description>
     </item>
     
     <item>
       <title>etcd 集群运维</title>
       <link>https://guojing.io/posts/etcd-ops/</link>
       <pubDate>Mon, 28 Jan 2019 00:00:00 +0000</pubDate>
-      
+      <author>guojing.io (mail@guojing.io)</author>
       <guid>https://guojing.io/posts/etcd-ops/</guid>
-      <description>&lt;p&gt;有个朋友说起表白的段子时编了一句：你是我的 etcd 。&lt;/p&gt;</description>
+      <description>&lt;p&gt;有个朋友说起表白的段子时编了一句: &lt;code&gt;you are the etcd to my k8s cluster&lt;/code&gt; 。&lt;/p&gt;
+
+&lt;h2 id=&#34;集群的备份和恢复&#34;&gt;集群的备份和恢复&lt;/h2&gt;
+
+&lt;h3 id=&#34;添加备份&#34;&gt;添加备份&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;#!/bin/bash
+IP=123.123.123.123
+BACKUP_DIR=/alauda/etcd_bak/
+mkdir -p $BACKUP_DIR
+export ETCDCTL_API=3
+etcdctl --endpoints=http://$IP:2379 snapshot save $BACKUP/snap-$(date +%Y%m%d%H%M).db
+
+# 备份一个节点的数据就可以恢复，实践中，为了防止定时任务配置的节点异常没有生成备份，建议多加几个
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;恢复集群&#34;&gt;恢复集群&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;#!/bin/bash
+
+# 使用 etcdctl snapshot restore 生成各个节点的数据
+
+# 比较关键的变量是
+# --data-dir 需要是实际 etcd 运行时的数据目录
+# --name  --initial-advertise-peer-urls  需要用各个节点的配置
+# --initial-cluster  initial-cluster-token 需要和原集群一致
+
+ETCD_1=10.1.0.5
+ETCD_2=10.1.0.6
+ETCD_3=10.1.0.7
+
+for i in ETCD_1 ETCD_2 ETCD_3
+do
+export ETCDCTL_API=3
+etcdctl snapshot restore snapshot.db \
+--data-dir=/var/lib/etcd \
+--name $i \
+--initial-cluster ${ETCD_1}=http://${ETCD_1}:2380,${ETCD_2}=http://${ETCD_2}:2380,${ETCD_3}=http://${ETCD_3}:2380 \
+--initial-cluster-token k8s_etcd_token \
+--initial-advertise-peer-urls http://$i:2380 &amp;amp;&amp;amp; \
+mv /var/lib/etcd/ etcd_$i
+done
+# 把 etcd_10.1.0.5 复制到 10.1.0.5节点，覆盖/var/lib/etcd(同--data-dir路径)
+# 其他节点依次类推
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;用etcd自动创建的snapdb恢复&#34;&gt;用etcd自动创建的snapdb恢复&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;#!/bin/bash 
+export ETCDCTL_API=3
+etcdctl snapshot restore snapshot.db \
+--skip-hash-check \
+--data-dir=/var/lib/etcd \
+--name 10.1.0.5 \
+--initial-cluster 10.1.0.5=http://10.1.0.5:2380,10.1.0.6=http://10.1.0.6:2380,10.1.0.7=http://10.1.0.7:2380 \
+--initial-cluster-token k8s_etcd_token \
+--initial-advertise-peer-urls http://10.1.0.5:2380
+
+# 也是所有节点都需要生成自己的数据目录，参考上一条
+# 和上一条命令唯一的差别是多了  --skip-hash-check  （跳过完整性校验）
+# 这种方式不能确保 100% 可恢复，建议还是自己加备份
+# 通常恢复后需要做一下数据压缩和碎片整理，可参考相应章节
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;踩过的坑&#34;&gt;踩过的坑&lt;/h3&gt;
+
+&lt;p&gt;[ 3.0.14版 etcd restore 功能不可用 ] &lt;a href=&#34;https://github.com/etcd-io/etcd/issues/7533&#34;&gt;https://github.com/etcd-io/etcd/issues/7533&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;使用更新的 etcd 即可。&lt;/p&gt;
+
+&lt;h2 id=&#34;集群的扩容&#34;&gt;集群的扩容&lt;/h2&gt;
+
+&lt;h3 id=&#34;从1到3&#34;&gt;从1到3&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;执行添加&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#!/bin/bash
+export ETCDCTL_API=2
+etcdctl --endpoints=http://10.1.0.6:2379 member add 10.1.0.6 http://10.1.0.6:2380
+etcdctl --endpoints=http://10.1.0.7:2379 member add 10.1.0.7 http://10.1.0.7:2380
+   
+# ETCD_NAME=&amp;quot;etcd_10.1.0.6&amp;quot; 
+# ETCD_INITIAL_CLUSTER=&amp;quot;10.1.0.6=http://10.1.0.6:2380,10.1.0.5=http://10.1.0.5:2380&amp;quot;
+# ETCD_INITIAL_CLUSTER_STATE=&amp;quot;existing&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;准备添加的节点 etcd 参数配置&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#!/bin/bash
+/usr/local/bin/etcd 
+--data-dir=/data.etcd 
+--name 10.1.0.6
+--initial-advertise-peer-urls http://10.1.0.6:2380 
+--listen-peer-urls http://10.1.0.6:2380 
+--advertise-client-urls http://10.1.0.6:2379 
+--listen-client-urls http://10.1.0.6:2379 
+--initial-cluster 10.1.0.6=http://10.1.0.6:2380,10.1.0.5=http://10.1.0.5:2380
+--initial-cluster-state exsiting
+--initial-cluster-token k8s_etcd_token
+   
+# --initial-cluster 集群所有节点的 name=ip:peer_url
+# --initial-cluster-state exsiting 告诉 etcd 自己归属一个已存在的集群，不要自立门户
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;踩过的坑&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;从 1 到 3 期间，会经过集群是两节点的状态，这时候可能集群的表现就像挂了，endpoint status 这些命令都不能用，所以我们需要用member add先把集群扩到三节点，然后再依次启动etcd实例，这样做就能确保 etcd 就是健康的。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;从3到更多，其实还是member add啦，就放心搞吧。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;集群加证书&#34;&gt;集群加证书&lt;/h2&gt;
+
+&lt;h3 id=&#34;生成证书&#34;&gt;生成证书&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;curl -s -L -o /usr/bin/cfssl https://pkg.cfssl.org/R1.2/cfssl_linux-amd64
+curl -s -L -o /usr/bin/cfssljson https://pkg.cfssl.org/R1.2/cfssljson_linux-amd64
+chmod +x /usr/bin/{cfssl,cfssljson}
+cd /etc/kubernetes/pki/etcd
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;#  cat ca-config.json
+{
+  &amp;quot;signing&amp;quot;: {
+    &amp;quot;default&amp;quot;: {
+      &amp;quot;expiry&amp;quot;: &amp;quot;100000h&amp;quot;
+    },
+    &amp;quot;profiles&amp;quot;: {
+      &amp;quot;server&amp;quot;: {
+        &amp;quot;usages&amp;quot;: [&amp;quot;signing&amp;quot;, &amp;quot;key encipherment&amp;quot;, &amp;quot;server auth&amp;quot;, &amp;quot;client auth&amp;quot;],
+        &amp;quot;expiry&amp;quot;: &amp;quot;100000h&amp;quot;
+      },
+      &amp;quot;client&amp;quot;: {
+        &amp;quot;usages&amp;quot;: [&amp;quot;signing&amp;quot;, &amp;quot;key encipherment&amp;quot;, &amp;quot;server auth&amp;quot;, &amp;quot;client auth&amp;quot;],
+        &amp;quot;expiry&amp;quot;: &amp;quot;100000h&amp;quot;
+      }
+    }
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;#  cat ca-csr.json
+{
+  &amp;quot;CN&amp;quot;: &amp;quot;etcd&amp;quot;,
+  &amp;quot;key&amp;quot;: {
+    &amp;quot;algo&amp;quot;: &amp;quot;rsa&amp;quot;,
+    &amp;quot;size&amp;quot;: 4096
+  },
+  &amp;quot;names&amp;quot;: [
+    {
+      &amp;quot;C&amp;quot;: &amp;quot;CN&amp;quot;,
+      &amp;quot;L&amp;quot;: &amp;quot;Beijing&amp;quot;,
+      &amp;quot;O&amp;quot;: &amp;quot;Alauda&amp;quot;,
+      &amp;quot;OU&amp;quot;: &amp;quot;PaaS&amp;quot;,
+      &amp;quot;ST&amp;quot;: &amp;quot;Beijing&amp;quot;
+    }
+  ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;#  cat server-csr.json
+{
+  &amp;quot;CN&amp;quot;: &amp;quot;etcd-server&amp;quot;,
+  &amp;quot;hosts&amp;quot;: [
+    &amp;quot;localhost&amp;quot;,
+    &amp;quot;0.0.0.0&amp;quot;,
+    &amp;quot;127.0.0.1&amp;quot;,
+    &amp;quot;所有master 节点ip &amp;quot;,
+    &amp;quot;所有master 节点ip &amp;quot;,
+    &amp;quot;所有master 节点ip &amp;quot;
+  ],
+  &amp;quot;key&amp;quot;: {
+    &amp;quot;algo&amp;quot;: &amp;quot;rsa&amp;quot;,
+    &amp;quot;size&amp;quot;: 4096
+  },
+  &amp;quot;names&amp;quot;: [
+    {
+      &amp;quot;C&amp;quot;: &amp;quot;CN&amp;quot;,
+      &amp;quot;L&amp;quot;: &amp;quot;Beijing&amp;quot;,
+      &amp;quot;O&amp;quot;: &amp;quot;Alauda&amp;quot;,
+      &amp;quot;OU&amp;quot;: &amp;quot;PaaS&amp;quot;,
+      &amp;quot;ST&amp;quot;: &amp;quot;Beijing&amp;quot;
+    }
+  ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;# cat client-csr.json
+{
+  &amp;quot;CN&amp;quot;: &amp;quot;etcd-client&amp;quot;,
+  &amp;quot;hosts&amp;quot;: [
+    &amp;quot;&amp;quot;
+  ],
+  &amp;quot;key&amp;quot;: {
+    &amp;quot;algo&amp;quot;: &amp;quot;rsa&amp;quot;,
+    &amp;quot;size&amp;quot;: 4096
+  },
+  &amp;quot;names&amp;quot;: [
+    {
+      &amp;quot;C&amp;quot;: &amp;quot;CN&amp;quot;,
+      &amp;quot;L&amp;quot;: &amp;quot;Beijing&amp;quot;,
+      &amp;quot;O&amp;quot;: &amp;quot;Alauda&amp;quot;,
+      &amp;quot;OU&amp;quot;: &amp;quot;PaaS&amp;quot;,
+      &amp;quot;ST&amp;quot;: &amp;quot;Beijing&amp;quot;
+    }
+  ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;cd /etc/kubernetes/pki/etcd
+cfssl gencert -initca ca-csr.json | cfssljson -bare ca
+cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=server server-csr.json | cfssljson -bare server
+cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=client client-csr.json | cfssljson -bare client
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;参考链接：&lt;a href=&#34;https://lihaoquan.me/2017/3/29/etcd-https-setup.html&#34;&gt;https://lihaoquan.me/2017/3/29/etcd-https-setup.html&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;首先更新节点的peer-urls&#34;&gt;首先更新节点的peer-urls&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;export ETCDCTL_API=3
+etcdctl --endpoints=http://x.x.x.x:2379 member list
+   #  1111111111  ..........
+   #  2222222222  ..........
+   #  3333333333  ..........
+etcdctl --endpoints=http://172.30.0.123:2379 member update 1111111111 --peer-urls=https://x.x.x.x:2380
+   # 执行三次把三个节点的peer-urls都改成https
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;修改配置&#34;&gt;修改配置&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;#  vim /etc/kubernetes/main*/etcd.yaml
+
+#  etcd启动命令部分修改 http 为 https，启动状态改成 existing
+    - --advertise-client-urls=https://x.x.x.x:2379
+    - --initial-advertise-peer-urls=https://x.x.x.x:2380
+    - --initial-cluster=xxx=https://x.x.x.x:2380,xxx=https://x.x.x.x:2380,xxx=https://x.x.x.x:2380
+    - --listen-client-urls=https://x.x.x.x:2379
+    - --listen-peer-urls=https://x.x.x.x:2380
+    - --initial-cluster-state=existing
+
+#  etcd 启动命令部分插入
+	- --cert-file=/etc/kubernetes/pki/etcd/server.pem
+	- --key-file=/etc/kubernetes/pki/etcd/server-key.pem
+	- --peer-cert-file=/etc/kubernetes/pki/etcd/server.pem
+	- --peer-key-file=/etc/kubernetes/pki/etcd/server-key.pem
+	- --trusted-ca-file=/etc/kubernetes/pki/etcd/ca.pem
+	- --peer-trusted-ca-file=/etc/kubernetes/pki/etcd/ca.pem
+	- --peer-client-cert-auth=true
+	- --client-cert-auth=true
+
+#  检索hostPath在其后插入
+  - hostPath:
+      path: /etc/kubernetes/pki/etcd
+      type: DirectoryOrCreate
+    name: etcd-certs
+
+#  检索mountPath在其后插入
+    - mountPath: /etc/kubernetes/pki/etcd
+      name: etcd-certs
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;#  vim /etc/kubernetes/main*/kube-apiserver.yaml
+#  apiserver 启动部分插入，修改 http 为https
+	- --etcd-cafile=/etc/kubernetes/pki/etcd/ca.pem
+	- --etcd-certfile=/etc/kubernetes/pki/etcd/client.pem
+	- --etcd-keyfile=/etc/kubernetes/pki/etcd/client-key.pem
+	- --etcd-servers=https://x.x.x.x:2379,https://x.x.x.x:2379,https://x.x.x.x:2379
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;遇到的坑&#34;&gt;遇到的坑&lt;/h3&gt;
+
+&lt;p&gt;[ etcd加证书后，apiserver的健康检查还是http请求，etcd会一直刷日志 ]&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/etcd-io/etcd/issues/9285&#34;&gt;https://github.com/etcd-io/etcd/issues/9285&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-verilog&#34;&gt;2018-02-06 12:41:06.905234 I | embed: rejected connection from &amp;quot;127.0.0.1:35574&amp;quot; (error &amp;quot;EOF&amp;quot;, ServerName &amp;quot;&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;解决办法：直接去掉apiserver的健康检查，或者把默认的检查命令换成curl (apiserver的镜像里应该没有curl，如果是刚需的话自己重新build一下吧 )&lt;/p&gt;
+
+&lt;h2 id=&#34;集群升级&#34;&gt;集群升级&lt;/h2&gt;
+
+&lt;p&gt;已经是 v3 的的集群不需要太多的配置，保留数据目录，替换镜像(或者二进制)即可；&lt;/p&gt;
+
+&lt;p&gt;v2到v3的升级需要一个merge的操作，我并没有实际的实践过，也不太推荐这样做。&lt;/p&gt;
+
+&lt;h2 id=&#34;集群状态检查&#34;&gt;集群状态检查&lt;/h2&gt;
+
+&lt;p&gt;其实上述所有步骤都需要这些命令的辅助——&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#!/bin/bash
+# 如果证书的话，去掉--cert --key --cacert 即可
+# --endpoints= 需要写了几个节点的url，endpoint status就输出几条信息
+
+export ETCDCTL_API=3
+
+etcdctl \
+--endpoints=https://x.x.x.x:2379 \ 
+--cert=/etc/kubernetes/pki/etcd/client.pem \
+--key=/etc/kubernetes/pki/etcd/client-key.pem \
+--cacert=/etc/kubernetes/pki/etcd/ca.pem \
+endpoint status -w table
+
+etcdctl --endpoints=xxxx endpoint health
+
+etcdctl --endpoints=xxxx member list
+
+kubectl get cs
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;数据操作-删除-压缩-碎片整理&#34;&gt;数据操作（删除、压缩、碎片整理）&lt;/h2&gt;
+
+&lt;h3 id=&#34;删除&#34;&gt;删除&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;ETCDCTL_API=2 etcdctl rm --recursive            # v2 的 api 可以这样删除一个“目录”
+ETCDCTL_API=3 etcdctl --endpoints=xxx del /xxxxx --prefix # v3 的版本
+
+# 带证书的话，参考上一条添加 --cert --key --cacert 即可
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;遇到的坑：在一个客户环境里发现Kubernetes集群里的 “事件” 超级多，就是 kubectl describe xxx 看到的events部分信息，数据太大导致 etcd 跑的很累，我们就用这样的方式删掉没用的这些数据。&lt;/p&gt;
+
+&lt;h3 id=&#34;碎片整理&#34;&gt;碎片整理&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;ETCDCTL_API=3 etcdctl --endpoints=xx:xx,xx:xx,xx:xx defrag
+ETCDCTL_API=3 etcdctl --endpoints=xx:xx,xx:xx,xx:xx endpoint status # 看数据量
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;压缩&#34;&gt;压缩&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;ETCDCTL_API=3 etcdctl --endpoints=xx:xx,xx:xx,xx:xx compact
+
+# 这个在只有 K8s 用的 etcd 集群里作用不太大，可能具体场景我没遇到
+# 可参考这个文档
+# https://www.cnblogs.com/davygeek/p/8524477.html
+# 不过跑一下不碍事
+
+etcd --auto-compaction-retention=1
+
+# 添加这个参数让 etcd 运行时自己去做压缩
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;常见问题&#34;&gt;常见问题&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;etcd 对时间很依赖，所以集群里的节点时间一定要同步！&lt;/li&gt;
+&lt;li&gt;磁盘空间不足，如果磁盘是被 etcd 自己吃完了，就需要考虑压缩和删数据啦&lt;/li&gt;
+&lt;li&gt;加证书后所有请求就都要带证书了，要不会提示 &lt;code&gt;context deadline exceeded&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;做各个操作时 etcd 启动参数里标明节点状态的要小心，否则需要重新做一遍前面的步骤很麻烦&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;日志收集&#34;&gt;日志收集&lt;/h2&gt;
+
+&lt;p&gt;etcd 的日志暂时只支持 syslog 和 stdout 两种——  &lt;a href=&#34;https://github.com/etcd-io/etcd/issues/7936&#34;&gt;https://github.com/etcd-io/etcd/issues/7936&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;etcd 的日志在排查故障时很有用，如果我们用宿主机来部署 etcd，日志可以通过 systemd 检索到，但kubeadm 方式启动的 etcd 在容器重启后就会丢失所有历史。我们可以用以下的方案来做——&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;shell 的重定向&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;etcd --xxxx --xxxx   &amp;gt;  /var/log/etcd.log 
+# 配合 logratate 来做日志切割
+# 将日志通过 volume 挂载到宿主机
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;supervisor&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;supervisor 从容器刚开始流行时，就是保持服务持续运行很有效的工具&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;sidecar 容器（后续我在github上补充一个例子，github.com/jing2uo）&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;sidecar可以简单理解为一个pod里有多个容器（比如kubedns）他们彼此可以看到对方的进程，因此我们可以用传统的 strace 来捕捉 etcd进程的输出，然后在sidecar这个容器里和shell重定向一样操作。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   strace  -e trace=write -s 200 -f -p 1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;kubeadm-1-13部署的集群&#34;&gt;kubeadm 1.13部署的集群&lt;/h2&gt;
+
+&lt;p&gt;最近我们测试kubernetes 1.13集群时发现了一些有趣的改变，诈一看我们上面的命令就没法用了——&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://kubernetes.io/docs/setup/independent/ha-topology/&#34;&gt;https://kubernetes.io/docs/setup/independent/ha-topology/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;区分了 &lt;code&gt;Stacked etcd topology&lt;/code&gt; 和 &lt;code&gt;External etcd topology&lt;/code&gt; ，官方的链接了这个图很形象——&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://d33wubrfki0l68.cloudfront.net/d1411cded83856552f37911eb4522d9887ca4e83/b94b2/images/kubeadm/kubeadm-ha-topology-stacked-etcd.svg&#34; alt=&#34;Stacked etcd topology&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;这种模式下的 etcd 集群，最明显的差别是容器内 etcd 的initial-cluster 启动参数只有自己的 ip，会有点懵挂了我这该怎么去恢复。其实基本原理没有变，kubeadm 藏了个 configmap，启动参数被放在了这里 ——&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;kubectl get cm  etcdcfg -n kube-system -o yaml
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;    etcd:
+      local:
+        serverCertSANs:
+        - &amp;quot;192.168.8.21&amp;quot;
+        peerCertSANs:
+        - &amp;quot;192.168.8.21&amp;quot;
+        extraArgs:
+          initial-cluster: 192.168.8.21=https://192.168.8.21:2380,192.168.8.22=https://192.168.8.22:2380,192.168.8.20=https://192.168.8.20:2380
+          initial-cluster-state: new
+          name: 192.168.8.21
+          listen-peer-urls: https://192.168.8.21:2380
+          listen-client-urls: https://192.168.8.21:2379
+          advertise-client-urls: https://192.168.8.21:2379
+          initial-advertise-peer-urls: https://192.168.8.21:2380
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;联系我&#34;&gt;联系我&lt;/h2&gt;
+
+&lt;p&gt;实践过程中 google 了大量文档和教程，整理时我尽量找了印象深刻的文档的历史补充进来，但时间过去了很久不可能搜集完整，如果发现某部分内容侵犯了版权，可以联系我删除内容或者补充参考链接。若文档表述或者知识点有问题，来 &lt;a href=&#34;https://github.com/jing2uo/Blog&#34;&gt;https://github.com/jing2uo/Blog&lt;/a&gt; 提 issue 。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>zplug 武装 zsh</title>
+      <link>https://guojing.io/posts/zplug/</link>
+      <pubDate>Thu, 10 May 2018 00:00:00 +0000</pubDate>
+      <author>guojing.io (mail@guojing.io)</author>
+      <guid>https://guojing.io/posts/zplug/</guid>
+      <description>&lt;p&gt;很多人用  &lt;a href=&#34;https://github.com/robbyrussell/oh-my-zsh&#34;&gt;oh-my-zsh&lt;/a&gt;  ，但并不是只有一种选择。&lt;/p&gt;
+
+&lt;p&gt;在  &lt;a href=&#34;https://github.com/unixorn/awesome-zsh-plugins&#34;&gt;awesome-zsh-plugins&lt;/a&gt;  这个项目里列了超级多的 &amp;quot; zsh 配置框架 &amp;quot;。 &lt;a href=&#34;https://zplug.sh&#34;&gt;zplug&lt;/a&gt; 是从 &lt;a href=&#34;https://github.com/junegunn/fzf&#34;&gt;fzf&lt;/a&gt;、&lt;a href=&#34;https://github.com/junegunn/vim-plug&#34;&gt;vim-plug&lt;/a&gt; 这两个项目的作者 &lt;a href=&#34;https://github.com/junegunn&#34;&gt;junegunn&lt;/a&gt; 那边爬到的，&lt;code&gt;zplug&lt;/code&gt; 和 &lt;code&gt;vim-plug&lt;/code&gt; 风格类似，而作者的另一个项目  &lt;a href=&#34;https://github.com/b4b4r07/enhancd&#34;&gt;enhancd&lt;/a&gt; 也是神器，他的 &lt;a href=&#34;https://tellme.tokyo/&#34;&gt;blog&lt;/a&gt; 质量也很高，值得关注（日语？用翻译的！&lt;/p&gt;
+
+&lt;p&gt;&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;markdown 里贴链接还是有点费力…唠叨半天，开始用吧——&lt;/p&gt;
+
+&lt;h3 id=&#34;疾速体验&#34;&gt;疾速体验&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;# 不想看解释，直接执行这个 shell 然后重新打开终端即可
+wget https://guojing.io/attach/zplug.sh | bash 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;安装&#34;&gt;安装&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;apt install zplug fzf        # debian
+
+# 如果发行版源里没有——
+export ZPLUG_HOME=~/.zplug
+git clone https://github.com/zplug/zplug $ZPLUG_HOME
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;编辑配置文件&#34;&gt;编辑配置文件&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;vim ~/.zshrc&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# Check if zplug is installed
+# if [[ $(grep -w ID /etc/os-release) == &amp;quot;ID=debian&amp;quot; ]]; then
+#     source /usr/share/zplug/init.zsh
+# fi
+# 以上几行简单适配了 apt 安装的 zplug
+
+source ~/.zplug/init.zsh
+
+# Misc
+export EDITOR=vim
+export GIT_EDITOR=&amp;quot;${EDITOR}&amp;quot;
+export PATH=$ZPLUG_HOME/bin:$PATH
+export PAGER=&amp;quot;most&amp;quot;
+export LANG=&amp;quot;en_US.UTF-8&amp;quot;
+
+# History config
+HISTSIZE=10000
+SAVEHIST=10000
+HISTFILE=$ZPLUG_HOME/zsh_history
+setopt append_history
+setopt share_history
+setopt long_list_jobs
+setopt hist_expire_dups_first
+setopt hist_ignore_dups
+setopt hist_ignore_all_dups
+setopt hist_ignore_space
+setopt hist_find_no_dups
+setopt hist_reduce_blanks
+setopt hist_verify
+setopt hist_no_store
+setopt interactivecomments
+zstyle &#39;:completion:*&#39; rehash true
+
+# Key binds
+bindkey &#39;\eOA&#39;    history-substring-search-up
+bindkey &#39;\eOB&#39;    history-substring-search-down
+bindkey &amp;quot;\e[1;5D&amp;quot; backward-word
+bindkey &amp;quot;\e[1;5C&amp;quot; forward-word
+bindkey  &amp;quot;^[[H&amp;quot;   beginning-of-line
+bindkey  &amp;quot;^[[F&amp;quot;   end-of-line
+
+# Zplug plugins
+zplug &amp;quot;zsh-users/zsh-completions&amp;quot;
+zplug &amp;quot;zsh-users/zsh-history-substring-search&amp;quot;
+zplug &amp;quot;zsh-users/zsh-syntax-highlighting&amp;quot;
+zplug &amp;quot;zsh-users/zsh-autosuggestions&amp;quot;
+zplug &amp;quot;rimraf/k&amp;quot;
+zplug &amp;quot;b4b4r07/enhancd&amp;quot;, use:init.sh
+zplug &amp;quot;b4b4r07/emoji-cli&amp;quot;
+zplug &amp;quot;mrowa44/emojify&amp;quot;, as:command
+zplug &amp;quot;k4rthik/git-cal&amp;quot;, as:command
+zplug &amp;quot;lib/completion&amp;quot;, from:oh-my-zsh
+zplug &amp;quot;plugins/colored-man-pages&amp;quot;, from:oh-my-zsh
+zplug &amp;quot;plugins/man&amp;quot;, from:oh-my-zsh
+zplug &amp;quot;plugins/sudo&amp;quot;, from:oh-my-zsh
+zplug &amp;quot;plugins/encode64&amp;quot;, from:oh-my-zsh
+zplug &#39;plugins/extract&#39;, from:oh-my-zsh
+zplug &amp;quot;themes/half-life&amp;quot;, from:oh-my-zsh, as:theme
+
+zplug &amp;quot;junegunn/fzf&amp;quot;
+zplug &amp;quot;junegunn/fzf-bin&amp;quot;, \
+    from:gh-r, \
+    as:command, \
+    rename-to:fzf, \
+    use:&amp;quot;*linux*amd64*&amp;quot;
+source $ZPLUG_HOME/repos/junegunn/fzf/shell/completion.zsh
+source $ZPLUG_HOME/repos/junegunn/fzf/shell/key-bindings.zsh
+
+# debian 使用 apt install fzf 适配以下几行，删除上面配置 fzf 的部分即可
+# if [[ -e /usr/share/doc/fzf/examples/key-bindings.zsh ]]; then
+#   source /usr/share/doc/fzf/examples/key-bindings.zsh
+# fi
+
+if zplug check b4b4r07/enhancd; then
+    export ENHANCD_FILTER=fzf-tmux
+fi
+
+# Install packages that have not been installed yet
+if ! zplug check --verbose; then
+    printf &amp;quot;Install? [y/N]: &amp;quot;
+    if read -q; then
+        echo; zplug install
+    else
+        echo
+    fi
+fi
+zplug load
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后 &lt;code&gt;source ~/.zshrc&lt;/code&gt;  开始体验吧&lt;/p&gt;
+
+&lt;h4 id=&#34;有哪些点不错&#34;&gt;有哪些点不错？&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ctrl + r 唤起 fzf 作为搜索后端的历史记录选单，支持模糊匹配&lt;/li&gt;
+&lt;li&gt;cd 直接回车，可超快速的进入曾经访问过的文件夹&lt;/li&gt;
+&lt;li&gt;x   ~/压缩包/路径/xxx.tar  解压文件，支持所有格式&lt;/li&gt;
+&lt;li&gt;k  比 ls 、ll 更快的列出文件夹下内容&lt;/li&gt;
+&lt;li&gt;输入命令前缀上下键可快速定位 &amp;quot; 相关历史 &#39;&#39;，比如输入 ssh 上下键会翻出所有登陆过的主机&lt;/li&gt;
+&lt;li&gt;可以通过 zplug 指令自动下载 github 上任意 release 文件到本地&lt;/li&gt;
+&lt;li&gt;酷！大部分人都用 oh-my-zsh 的时候，我们完全定制了自己的配置 ~&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+    <item>
+      <title>SSH 使用技巧</title>
+      <link>https://guojing.io/posts/ssh-tips/</link>
+      <pubDate>Fri, 20 Apr 2018 00:00:00 +0000</pubDate>
+      <author>guojing.io (mail@guojing.io)</author>
+      <guid>https://guojing.io/posts/ssh-tips/</guid>
+      <description>&lt;p&gt;用用 ~/.ssh/config  这个配置文件能极大提高工作效率。&lt;/p&gt;
+
+&lt;h4 id=&#34;ssh-使用密钥认证&#34;&gt;SSH 使用密钥认证&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;ssh-keygen -C &amp;quot;hipkomh@gmail.com&amp;quot;  
+    # -C 后面是备注，一般用邮箱，或者姓名+公司等其他标识
+    # 默认路径在 ~/.ssh/id_rsa，注意不要覆盖自己的
+ssh-copy-id -i path/to/keyfile user@remotehostname -p port
+    # ssh-copy-id 用途是把公钥添加到远程主机用户目录.ssh/authorized_key文件里
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;ssh-client-config文件&#34;&gt;SSH client config文件&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;➜  ~ cat ~/.ssh/config&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;Host *                                             # 用 * 对所有主机生效
+  ControlPersist yes                               # 复用之前的连接
+  ControlMaster auto
+  ControlPath /tmp/ssh_%h_%p                       # socks文件存放目录
+  Compression yes                                  # 压缩传输数据
+  StrictHostKeyChecking no                         # 检查远程主机指纹是否一致
+  HashKnownHosts no                                # .ssh/known_hosts文件里记录的值不进行哈希
+                                                   # /etc/ssh/ssh_config 里有更多配置项
+
+Host jumpserver                                    # 定义主机别名，ssh hk-node 即可登录
+  HostName 39.xx.x.84                              # 主机ip地址
+  User root                                        # 用户名，默认为当前用户
+  IdentityFile ~/.ssh/id_rsa_2019                  # 指定私钥，默认~/.ssh/id_rsa
+
+Host prod-env
+  HostName 172.21.0.6                              # 注意这里写了个内网ip
+  User root
+  IdentityFile ~/.ssh/id_rsa_2019
+  ProxyJump jumpserver                             # 使用跳板机，这里也可以用主机别名
+
+
+Host alauda-*                                      # 对 Host 是 alauda-开头的主机适用
+  IdentityFile ~/.ssh/alauda/id_rsa.alauda         # 定义这组机器的key
+  User alauda                                      # 定义这组机器的用户名
+Host alauda-master
+  HostName 54.xxx.181.xxx
+  Port 5022                                        # 自定义端口
+Host alauda-node
+  HostName 52.xx.91.xx
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;以上示例基本演示了配置文件的常用情况，其实ProxyJump 参数较新的 openssh 才有，旧版可使用ProxyCommand，格式为：&lt;code&gt;ProxyCommand=&amp;quot;ssh -W %h:%p root@jumpserver&amp;quot;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;这里定义的在跳板机后的节点( 使用 ProxyJump )，可以直接被 scp 使用！例如——&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;scp ~/Desktop/oooo.sh prod-env:/root/&lt;/code&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;ansible使用-ssh-跳板机&#34;&gt;Ansible使用 ssh 跳板机&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;➜  ~ cat ~/playbook/inventory/master&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;[cluster]
+  master        ansible_host=10.224.1.20
+  node          ansible_host=10.224.1.21
+                 # 使用别名定义 master 组内机器
+[cluster:vars]   
+  ansible_ssh_common_args=&#39;-o ProxyCommand=&amp;quot;ssh -W %h:%p root@jumpserver&amp;quot;&#39;
+  ansible_ssh_private_key_file=~/.ssh/id_rsa_2019
+                 # 定义 master 组机器使用的变量
+                 # ansible_ssh_* 是内置变量，下面是指定跳板机和key
+                 # 可以直接调用 ~/.ssh/config 文件里定义的主机别名
+                 # 使用时删掉包含 # 的所有行
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其他特性和变量还有很多，如有需要请参考ansible和ssh官方手册。&lt;/p&gt;
+
+&lt;h4 id=&#34;ssh隧道&#34;&gt;SSH隧道&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;ssh -ND localhost:1090 hk-jumpserver   # hk-jumpserver 在 ~/.ssh/config 文件中定义
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;配合 privoxy 、proxychains 实现命令行工具的代理；&lt;/p&gt;
+
+&lt;p&gt;浏览器配合 SwitchyOmega 插件，将特别的网站转向 socks5 localhost:1090 Enjoy~&lt;/p&gt;</description>
     </item>
     
   </channel>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>thinkpad on 郭靖 I/O</title>
+    <link>https://guojing.io/tags/thinkpad/</link>
+    <description>Recent content in thinkpad on 郭靖 I/O</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <managingEditor>mail@guojing.io (guojing.io)</managingEditor>
+    <webMaster>mail@guojing.io (guojing.io)</webMaster>
+    <lastBuildDate>Fri, 17 May 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://guojing.io/tags/thinkpad/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Debian in X1 Yoga 2018</title>
+      <link>https://guojing.io/posts/debian-yoga/</link>
+      <pubDate>Fri, 17 May 2019 00:00:00 +0000</pubDate>
+      <author>mail@guojing.io (guojing.io)</author>
+      <guid>https://guojing.io/posts/debian-yoga/</guid>
+      <description>&lt;p&gt;两年前的米本是 8G 内存，最近不太够用了，咸鱼淘了个 x1 yoga，又简单鼓捣了一下桌面。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

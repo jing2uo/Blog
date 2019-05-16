@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  
+  <meta name="author"
+        content="guojing.io"/>
+
+  
+  <meta name="description" content="相比 GRUB，rEFInd 有更漂亮的启动界面 ( 可定制主题 )，多系统和多硬盘的自动扫描更强大。
+"/>
+  
+
+  
+  
+  <meta name="keywords" content="Kubernetes, Devops, Python, Debian"/>
+  
+
+  
+  <link rel="canonical" href="https://guojing.io/posts/refind/"/>
+
+  
+
+  <title>rEFInd 引导简介 &middot; 郭靖 I/O</title>
+
+  <link rel="shortcut icon" href="https://guojing.io/images/favicon.ico"/>
+  <link rel="stylesheet" href="https://guojing.io/css/animate.min.css"/>
+  <link rel="stylesheet" href="https://guojing.io/css/remixicon.css"/>
+  <link rel="stylesheet" href="https://guojing.io/css/zozo.css"/>
+  <link rel="stylesheet" href="https://guojing.io/css/highlight.css"/>
+
+  
+  
+</head>
+
+<body>
+<div class="main animated">
+  <div class="nav_container animated fadeInDown">
+  <div class="site_nav" id="site_nav">
+    <ul>
+      
+      <li>
+        <a href="/">首页</a>
+      </li>
+      
+      <li>
+        <a href="/posts/">归档</a>
+      </li>
+      
+      <li>
+        <a href="/tags/">标签</a>
+      </li>
+      
+      <li>
+        <a href="/days/">日常</a>
+      </li>
+      
+      <li>
+        <a href="/about/">关于</a>
+      </li>
+      
+    </ul>
+  </div>
+  <div class="menu_icon">
+    <a id="menu_icon"><i class="remixicon-links-line"></i></a>
+  </div>
+</div>
+
+  <div class="header animated fadeInDown">
+  <div class="site_title_container">
+    <div class="site_title">
+      <h1>
+        <a href="https://guojing.io/">
+          <span>郭靖 I/O</span>
+          <img src="https://guojing.io/images/logo.png"/>
+        </a>
+      </h1>
+    </div>
+    <div class="description">
+      <p class="sub_title">文科生 / 网管 / 看书写字 / 动漫 / 不爱国</p>
+      <div class="my_socials">
+        
+        
+        <a href="https://github.com/jing2uo" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
+        
+        
+        <a href="https://guojing.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+      table{
+        border-left:1px solid #000000;border-top:1px solid #000000;
+        width: 100%;
+        word-wrap:break-word; word-break:break-all;
+      }
+      table th{
+      text-align:center;
+      }
+      table th,td{
+        border-right:1px solid #000000;border-bottom:1px solid #000000;
+      }
+</style>
+
+  <div class="content">
+    <div class="post_page">
+      <div class="post animated fadeInDown">
+        <div class="post_title post_detail_title">
+          <h2><a href='/posts/refind/'>rEFInd 引导简介</a></h2>
+          <span class="date">2019.03.15</span>
+        </div>
+        <div class="post_content markdown"><p>相比 GRUB，rEFInd 有更漂亮的启动界面 ( 可定制主题 )，多系统和多硬盘的自动扫描更强大。</p>
+
+<p><br/></p>
+
+<p><center>   <img src="/images/refind-preview.png" alt="preview.png" />  </center></p>
+
+<p><br/></p>
+
+<p>贴一下 <a href="https://www.rodsbooks.com/refind/">官网</a></p>
+
+<h3 id="安装">安装</h3>
+
+<pre><code># 各个发行版基本上源里都有
+apt install refind
+pacman install refind
+</code></pre>
+
+<p>暴力一点的话：</p>
+
+<ol>
+<li><p>下载这个文件   <a href="/attach/refind.zip"> refind.zip </a></p></li>
+
+<li><p>解压扔进 /boot/efi/EFI/ 目录内( 假定 <em>esp</em>  分区挂载在 /boot/efi/ )</p></li>
+
+<li><p>手动添加 UEFI 启动项, 需要用到 efibootmgr 这个工具——</p>
+
+<pre><code>#  1. 添加
+sudo efibootmgr -c -d /dev/sda -p 1 -L rEFInd -l /EFI/refind/refind_x64.efi
+#                     指定磁盘  分区  启动项名称     refind_x64.efi 的文件路径
+#  2. 查看目前有的所有启动项，返回结果类似 “ Boot0001*  rEFInd ”
+sudo efibootmgr
+#  3. 设置下次从 rEFInd 启动，假设 “ Boot0001*  rEFInd ”
+sudo efibootmgr -n 0001
+#  4. 删除，0001 从上一条返回结果中查看，只取数字即可
+sudo efibootmgr -b 0001 -B
+</code></pre></li>
+
+<li><p>Done ~</p></li>
+</ol>
+
+<h3 id="修改主题及启动项配置">修改主题及启动项配置</h3>
+
+<p><code>~ λ cat /boot/efi/EFI/refind/refind.conf</code>    ( 我的配置 )</p>
+
+<pre><code>#
+# refind.conf
+# Configuration file for the rEFInd boot menu
+#
+
+# 在选择系统的界面停留多久
+timeout 10
+##  主题相关，可以去 github 翻自己喜欢的风格
+hideui singleuser,hints,arrows,label
+icons_dir themes/refind-black/icons
+banner themes/refind-black/background.png
+banner_scale fillscreen
+selection_big   themes/refind-black/selection_big.png
+selection_small themes/refind-black/selection_small.png
+showtools shutdown
+# 屏蔽 rEFInd 自带的一些工具，只显示关机按钮
+## 主题相关
+
+# 控制 rEFInd 扫描不扫描哪些分区
+also_scan_dirs boot,ESP2:EFI/linux/kernels
+# @/boot 用来屏蔽 btrfs 子卷，否则启动选单会出现两个选项(包含下面要自定义的)
+dont_scan_dirs @/boot,ESP:/EFI/boot,EFI/Dell,EFI/memtest86
+
+# 第一个系统选项，这里的排列会影响启动画面展示顺序
+menuentry &quot;Debian Sid&quot; {
+# 命名一下
+    icon \EFI\refind\icons\os_debian.png
+# 自定义一个 logo
+    volume ROOT
+# 系统所在分区名称，这儿是一个 btrfs 分区
+    loader /@/vmlinuz
+# /@/ 表示 ROOT 分区里叫 @ 的 btrfs 子卷
+    initrd /@/boot/acpi_override
+    initrd /@/initrd.img
+# 表示 ROOT 分区里 @ 子卷下的 boot 目录及文件
+    options &quot;root=LABEL=ROOT rootflags=subvol=@ rw quiet splash i915.enable_guc=3 mem_sleep_default=deep cgroup_enable=memory swapaccount=1&quot;
+# 内核启动参数，不像 GRUB 是改 /etc/default/grub，根据自己需要修改
+# 下面是定义在启动选单页面按 F2 进入二级菜单时显示的项目
+# 启动上一个内核( debian 官方会在升级内核时做个软链接到 *.old )
+    submenuentry &quot;Boot using old initrd.img&quot; {
+            loader   /@/vmlinuz.old
+            initrd   /@/boot/acpi_override
+            initrd   /@/initrd.img.old
+    }
+# 进入单用户模式
+    submenuentry &quot;Boot to single-user mode&quot; {
+            options &quot;root=PARTLABEL=ROOT rootflags=subvol=@ rw single&quot;
+    }
+# 进入终端模式
+    submenuentry &quot;Boot to terminal&quot; {
+            add_options &quot;systemd.unit=multi-user.target&quot;
+    }
+
+}
+
+menuentry &quot;Arch Linux&quot; {
+    icon     /EFI/refind/icons/os_arch.png
+    volume   ROOT
+    loader   /@arch/boot/vmlinuz-linux
+    initrd   /@arch/boot/intel-ucode.img
+    initrd   /@arch/boot/acpi_override
+    initrd   /@arch/boot/initramfs-linux.img
+    options  &quot;root=LABEL=ROOT rootflags=subvol=@arch quiet splash rw add_efi_memmap  i915.enable_guc=3 mem_sleep_default=deep&quot;
+    submenuentry &quot;Boot using fallback initramfs&quot; {
+        initrd /@arch/boot/initramfs-linux-fallback.img
+    }
+    submenuentry &quot;Boot to terminal&quot; {
+        add_options &quot;systemd.unit=multi-user.target&quot;
+    }
+}
+</code></pre>
+
+<p>快速去掉上面的 &quot; 傻x &quot; 注释，保存到 oooo 文件：</p>
+
+<pre><code>grep -v ^# oooo &gt; refind.conf
+</code></pre>
+
+<h3 id="windows-使用">Windows 使用</h3>
+
+<p>若是 Windows + Linux 的多系统组合，在 Win 或 Linux 里配好就不需要管另一个了。</p>
+
+<p><br/></p>
+
+<p>下载  <a href="/attach/refind.zip"> refind.zip </a>  解压丢进 efi 分区，efi 在 Windows 里不能直接挂载，我们需要  <strong>bootice</strong>  这个神器！磁盘管理里给 efi 分区分配盘符后就能复制进去。然后在 UEFI 标签下添加启动项，指定好分区和 efi 文件位置即可。</p></div>
+        <div class="post_footer">
+          
+          <div class="meta">
+            <div class="info">
+              <span class="field tags">
+                <i class="remixicon-stack-line"></i>
+                
+                <a href="https://guojing.io/tags/linux/">linux</a>
+                
+                <a href="https://guojing.io/tags/refind/">refind</a>
+                
+                <a href="https://guojing.io/tags/bootloader/">bootloader</a>
+                
+              </span>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      
+      
+    </div>
+  </div>
+  <a id="back_to_top" href="#" class="back_to_top"><span>△</span></a>
+</div>
+<footer class="footer">
+  <div class="footer_slogan">
+    <span>The quieter you become, the more you can hear.</span>
+  </div>
+</footer>
+
+
+
+<script src="https://guojing.io/js/jquery-3.3.1.min.js"></script>
+<script src="https://guojing.io/js/zozo.js"></script>
+<script src="https://guojing.io/js/highlight.pack.js"></script>
+<link  href="https://guojing.io/css/fancybox.min.css" rel="stylesheet">
+<script src="https://guojing.io/js/fancybox.min.js"></script>
+
+<script>hljs.initHighlightingOnLoad()</script>
+
+
+  <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+
+
+
+
+
+
+</body>
+</html>

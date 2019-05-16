@@ -6,6 +6,8 @@
     <description>Recent content in kubernetes on 郭靖 I/O</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
+    <managingEditor>mail@guojing.io (guojing.io)</managingEditor>
+    <webMaster>mail@guojing.io (guojing.io)</webMaster>
     <lastBuildDate>Mon, 28 Jan 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://guojing.io/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
@@ -15,9 +17,9 @@
       <title>etcd 集群运维</title>
       <link>https://guojing.io/posts/etcd-ops/</link>
       <pubDate>Mon, 28 Jan 2019 00:00:00 +0000</pubDate>
-      
+      <author>mail@guojing.io (guojing.io)</author>
       <guid>https://guojing.io/posts/etcd-ops/</guid>
-      <description>&lt;p&gt;有个朋友说起表白的段子时编了一句：你是我的 etcd 。&lt;/p&gt;</description>
+      <description>&lt;p&gt;有个朋友说起表白的段子时编了一句: &lt;code&gt;you are the etcd to my k8s cluster&lt;/code&gt; 。&lt;/p&gt;</description>
     </item>
     
   </channel>
