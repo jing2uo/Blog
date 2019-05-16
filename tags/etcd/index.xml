@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>etcd on 郭靖 I/O</title>
+    <link>https://guojing.io/tags/etcd/</link>
+    <description>Recent content in etcd on 郭靖 I/O</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 28 Jan 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://guojing.io/tags/etcd/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>etcd 集群运维</title>
+      <link>https://guojing.io/posts/etcd-ops/</link>
+      <pubDate>Mon, 28 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://guojing.io/posts/etcd-ops/</guid>
+      <description>&lt;p&gt;有个朋友说起表白的段子时编了一句：你是我的 etcd 。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
