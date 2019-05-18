@@ -7,7 +7,7 @@
     <language>zh-cn</language>
     <managingEditor>mail@guojing.io (guojing.io)</managingEditor>
     <webMaster>mail@guojing.io (guojing.io)</webMaster>
-    <lastBuildDate>Fri, 17 May 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 18 May 2019 00:00:00 +0000</lastBuildDate>
     
         <atom:link href="https://guojing.io/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>Debian in X1 Yoga 2018</title>
       <link>https://guojing.io/posts/debian-yoga/</link>
-      <pubDate>Fri, 17 May 2019 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 05 May 2019 00:00:00 +0000</pubDate>
       <author>guojing.io (mail@guojing.io)</author>
       <guid>https://guojing.io/posts/debian-yoga/</guid>
       <description>&lt;p&gt;两年前的米本是 8G 内存，最近不太够用了，咸鱼淘了个 x1 yoga，又简单鼓捣了一下桌面。&lt;/p&gt;
@@ -1303,6 +1303,73 @@ Host alauda-node
 &lt;p&gt;配合 privoxy 、proxychains 实现命令行工具的代理；&lt;/p&gt;
 
 &lt;p&gt;浏览器配合 SwitchyOmega 插件，将特别的网站转向 socks5 localhost:1090 Enjoy~&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Yaml 文件示例</title>
+      <link>https://guojing.io/posts/yaml-demo/</link>
+      <pubDate>Fri, 22 Dec 2017 00:00:00 +0000</pubDate>
+      <author>guojing.io (mail@guojing.io)</author>
+      <guid>https://guojing.io/posts/yaml-demo/</guid>
+      <description>&lt;p&gt;gitlab CI，Ansible Playbook，docker-compose，都需要用到 yaml 文件。&lt;/p&gt;
+
+&lt;p&gt;在此简单记录一下——&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;yaml文件的语法检查很严格，缩进的空格少一个多一个都会出问题，建议使用IDE。&lt;/li&gt;
+&lt;li&gt;emacs和vim，使用相应的插件开启缩进的垂直标线。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;强烈推荐&lt;/strong&gt; &lt;code&gt;yamllint&lt;/code&gt; 工具，&lt;code&gt;yamllint  xxx.yaml&lt;/code&gt; 即可获取报告。错误必须修改，警告视情况修复。&lt;/li&gt;
+&lt;li&gt;以下示例中 # 后为注释，实际编写不可用这种风格。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;gitlab-ci-示例&#34;&gt;gitlab CI 示例：&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;---
+stages:                      #  定义 ci 流程的各个 &amp;quot;阶段&amp;quot;
+  - build
+cache:                       #  使用缓存，避免依赖包重复下载
+  paths:
+    - vendor/
+build:
+  stage: build
+  only:                      #  only 定义在哪些分支才执行ci
+    - master
+    - stage
+    - develop
+  script:                    
+    - pwd                    #  可以使用ci内部定义的变量
+    - echo $CI_COMMIT_REF_SLUG
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;ansible-playbook-示例&#34;&gt;Ansible Playbook 示例：&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;---
+- hosts: master                               #  预备执行任务的主机组
+  gather_facts: &amp;quot;no&amp;quot;                          #  不获取主机信息
+  remote_user: root                           #  远程执行用户，此处为root
+  tasks:                                      #  具体要执行的任务
+    - name: &amp;quot;Install applications&amp;quot;            #  任务命令，执行过程中会回显
+      apt: name={{ item }} state=present      #  使用 apt 这个模块
+      with_items:                             #  使用 列表
+        - aria2
+        - htop
+        - curl
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;docker-compose-示例&#34;&gt;docker-compose 示例：&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;---
+registry:
+  restart: always                        #  容器停止后自动重启
+  image: registry:2.5.1                  #  使用的镜像
+  ports:                                 #  在宿主机上映射的端口
+    - 5000:5000
+  environment:                           #  定义变量，会初始化到容器内部
+    - REGISTRY_HTTP_ADDR=0.0.0.0:5000
+    - REGISTRY_STORAGE_DELETE_ENABLED=True
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;更多帮助请参考各部分官方文档。&lt;/p&gt;</description>
     </item>
     
   </channel>

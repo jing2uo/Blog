@@ -8,10 +8,19 @@
     <language>zh-cn</language>
     <managingEditor>mail@guojing.io (guojing.io)</managingEditor>
     <webMaster>mail@guojing.io (guojing.io)</webMaster>
-    <lastBuildDate>Tue, 02 Apr 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 18 May 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://guojing.io/days/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>再见，debian 吧</title>
+      <link>https://guojing.io/days/tieba/</link>
+      <pubDate>Sat, 18 May 2019 00:00:00 +0000</pubDate>
+      <author>mail@guojing.io (guojing.io)</author>
+      <guid>https://guojing.io/days/tieba/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://tieba.baidu.com/p/5931854914&#34;&gt;关于撤销 guojing911127 吧主管理权限的说明&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>关于 996</title>

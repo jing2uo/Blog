@@ -10,7 +10,8 @@
         content="guojing.io"/>
 
   
-  <meta name="description" content="郭靖的博客，随便写写。"/>
+  <meta name="description" content="gitlab CI，Ansible Playbook，docker-compose，都需要用到 yaml 文件。
+"/>
   
 
   
@@ -19,13 +20,11 @@
   
 
   
-  <link rel="canonical" href="https://guojing.io/days/"/>
+  <link rel="canonical" href="https://guojing.io/posts/yaml-demo/"/>
 
   
-  <link rel="alternate" type="application/rss&#43;xml" href="https://guojing.io/days/index.xml">
-  
 
-  <title>Days &middot; 郭靖 I/O</title>
+  <title>Yaml 文件示例 &middot; 郭靖 I/O</title>
 
   <link rel="shortcut icon" href="https://guojing.io/images/favicon.ico"/>
   <link rel="stylesheet" href="https://guojing.io/css/animate.min.css"/>
@@ -112,29 +111,95 @@
 </style>
 
   <div class="content">
-    <div class="list_with_title">
-      
-      <div class="listing_title">2019</div>
-      <div class="listing">
-        
-        <div class="listing_item">
-          <div class="listing_post">
-            <a href="/days/tieba/">再见，debian 吧</a>
-            <div class="post_time"><span class="date">05-18</span></div>
-          </div>
+    <div class="post_page">
+      <div class="post animated fadeInDown">
+        <div class="post_title post_detail_title">
+          <h2><a href='/posts/yaml-demo/'>Yaml 文件示例</a></h2>
+          <span class="date">2017.12.22</span>
         </div>
-        
-        <div class="listing_item">
-          <div class="listing_post">
-            <a href="/days/996/">关于 996</a>
-            <div class="post_time"><span class="date">04-02</span></div>
+        <div class="post_content markdown"><p>gitlab CI，Ansible Playbook，docker-compose，都需要用到 yaml 文件。</p>
+
+<p>在此简单记录一下——</p>
+
+<ul>
+<li>yaml文件的语法检查很严格，缩进的空格少一个多一个都会出问题，建议使用IDE。</li>
+<li>emacs和vim，使用相应的插件开启缩进的垂直标线。</li>
+<li><strong>强烈推荐</strong> <code>yamllint</code> 工具，<code>yamllint  xxx.yaml</code> 即可获取报告。错误必须修改，警告视情况修复。</li>
+<li>以下示例中 # 后为注释，实际编写不可用这种风格。</li>
+</ul>
+
+<h3 id="gitlab-ci-示例">gitlab CI 示例：</h3>
+
+<pre><code>---
+stages:                      #  定义 ci 流程的各个 &quot;阶段&quot;
+  - build
+cache:                       #  使用缓存，避免依赖包重复下载
+  paths:
+    - vendor/
+build:
+  stage: build
+  only:                      #  only 定义在哪些分支才执行ci
+    - master
+    - stage
+    - develop
+  script:                    
+    - pwd                    #  可以使用ci内部定义的变量
+    - echo $CI_COMMIT_REF_SLUG
+</code></pre>
+
+<h3 id="ansible-playbook-示例">Ansible Playbook 示例：</h3>
+
+<pre><code>---
+- hosts: master                               #  预备执行任务的主机组
+  gather_facts: &quot;no&quot;                          #  不获取主机信息
+  remote_user: root                           #  远程执行用户，此处为root
+  tasks:                                      #  具体要执行的任务
+    - name: &quot;Install applications&quot;            #  任务命令，执行过程中会回显
+      apt: name={{ item }} state=present      #  使用 apt 这个模块
+      with_items:                             #  使用 列表
+        - aria2
+        - htop
+        - curl
+</code></pre>
+
+<h3 id="docker-compose-示例">docker-compose 示例：</h3>
+
+<pre><code>---
+registry:
+  restart: always                        #  容器停止后自动重启
+  image: registry:2.5.1                  #  使用的镜像
+  ports:                                 #  在宿主机上映射的端口
+    - 5000:5000
+  environment:                           #  定义变量，会初始化到容器内部
+    - REGISTRY_HTTP_ADDR=0.0.0.0:5000
+    - REGISTRY_STORAGE_DELETE_ENABLED=True
+</code></pre>
+
+<p>更多帮助请参考各部分官方文档。</p></div>
+        <div class="post_footer">
+          
+          <div class="meta">
+            <div class="info">
+              <span class="field tags">
+                <i class="remixicon-stack-line"></i>
+                
+                <a href="https://guojing.io/tags/yaml/">yaml</a>
+                
+                <a href="https://guojing.io/tags/gitlab/">gitlab</a>
+                
+                <a href="https://guojing.io/tags/ansible/">ansible</a>
+                
+                <a href="https://guojing.io/tags/docker/">docker</a>
+                
+              </span>
+            </div>
           </div>
+          
         </div>
-        
       </div>
       
+      
     </div>
-    <div class="pagination"></div>
   </div>
   <a id="back_to_top" href="#" class="back_to_top"><span>△</span></a>
 </div>

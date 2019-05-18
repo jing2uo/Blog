@@ -8,7 +8,7 @@
     <language>zh-cn</language>
     <managingEditor>mail@guojing.io (guojing.io)</managingEditor>
     <webMaster>mail@guojing.io (guojing.io)</webMaster>
-    <lastBuildDate>Fri, 17 May 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 05 May 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://guojing.io/tags/thinkpad/index.xml" rel="self" type="application/rss+xml" />
     
@@ -16,7 +16,7 @@
     <item>
       <title>Debian in X1 Yoga 2018</title>
       <link>https://guojing.io/posts/debian-yoga/</link>
-      <pubDate>Fri, 17 May 2019 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 05 May 2019 00:00:00 +0000</pubDate>
       <author>mail@guojing.io (guojing.io)</author>
       <guid>https://guojing.io/posts/debian-yoga/</guid>
       <description>&lt;p&gt;两年前的米本是 8G 内存，最近不太够用了，咸鱼淘了个 x1 yoga，又简单鼓捣了一下桌面。&lt;/p&gt;</description>
