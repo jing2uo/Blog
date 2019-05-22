@@ -13,6 +13,49 @@
     
     
     <item>
+      <title>再见，debian 吧</title>
+      <link>https://guojing.io/posts/tieba/</link>
+      <pubDate>Sat, 18 May 2019 00:00:00 +0000</pubDate>
+      <author>guojing.io (mail@guojing.io)</author>
+      <guid>https://guojing.io/posts/tieba/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://tieba.baidu.com/p/5931854914&#34;&gt;关于撤销 guojing911127 吧主管理权限的说明&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;center&gt;&lt;img src=&#34;https://guojing.io/images/tieba.png&#34; alt=&#34;tieba.png&#34; /&gt; &lt;/center&gt;&lt;/p&gt;
+
+&lt;p&gt;听说贴吧封了 17 年以前的所有帖子，不知道是不是永久，好奇进去看看。结果在 debian 吧的首页看到了上面的置顶公告，楼里的小哥哥，恐怕懒政是不足以形容我问题的严重性啦，看到这条消息都过大半年了～&lt;/p&gt;
+
+&lt;p&gt;&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;忘了是啥时候变成吧主的，我刚进贴吧时是歌舒天晓 ( 可能是个女孩子 ) 吧主一直活跃，后来不上线被贴吧自动取消，然后honge一怒之下也退吧，就剩下了我，其实 18 年上半年偶尔还是会去看看，只是觉得没什么值得再开帖子分享的东东了。翻列表看以前，折腾最多的就是 &lt;code&gt;xfce&lt;/code&gt; 、&lt;code&gt;i3wm&lt;/code&gt; 这些美化桌面的东西，想起前年同花顺面试时有个面试官全程鄙视我，其中有一句：你说你大学玩 Linux 玩什么？桌面？换换发行版？我们有同事大学就给内核写代码巴拉巴拉 *&amp;amp;%#$ …  (  笑，确实是比较蠢，但那时候鼓捣的很开心。&lt;/p&gt;
+
+&lt;p&gt;&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;第一次装 debian 用掉两三天时间，想打开bash-completion 的补全重装了两三遍，换源琢磨大半天，Vim 学一周，散热和显卡驱动翻遍整个百度，学着用 goagent 翻墙，MBR 换 GPT 开 UEFI 不小心丢了所有文件，Gentoo 我拿两包 &amp;quot; 雪碧 &amp;quot; 垫在笔记本下面散热……等等等等，现在想想我也很纳闷为什么当初会那么执着那么二的，那时候还不知道运维这个词也没想过找工作。&lt;/p&gt;
+
+&lt;p&gt;&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;那时候身边没人可以交流，舍友应该在烦我半夜还疯狂转着的风扇，加群问问题得到的答案往往是 &lt;code&gt;提问的智慧&lt;/code&gt;，百度的答案照搬可能把 ubuntu 的上古源换进 debian，谷歌？即使现在工作了也能遇到一大堆人扶不稳梯子，更不用说当时的我了。&lt;/p&gt;
+
+&lt;p&gt;&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;所以一发现有什么好玩的就蠢蠢的去发帖分享，所以在群里遇到新人有问题会全程帮配好，所以只要写帖子写教程会很细心，所以很感激那些耐心帮过忙的朋友。&lt;/p&gt;
+
+&lt;p&gt;&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;后来，第一份工作是吧友群友石头推荐的，docker 和 k8s 是靠着配置桌面学会的搜索能力啃完的，华大集群都是 ubuntu 而我很熟 debian 系怎么管。前两年某天 QQ 上忽然有朋友发了个红包给我，说现在在工作了以前谢谢我帮忙。那一瞬间热泪盈眶，但其实我记不得帮过人家什么了。&lt;/p&gt;
+
+&lt;p&gt;&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;好多年了，同期有吧友变成了 debian 开发者，我现在遇到需要的包往往是人家放进源，寻神被 Rust 书的作者在扉页致谢，和他们比我还是很废柴，Java 学不会，Python 只能写写脚本， 但我就是从折腾那些东西开始，才有了现在养家糊口的能力。&lt;/p&gt;
+
+&lt;p&gt;&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;再有想分享的东西会放到博客，不能访问的那一大堆帖子里其实有些我到现在还经常用还讲给别人说，可惜了。所以 debian 吧就再见啦，谢谢在那儿认识的朋友，和那些傻傻坚持的时光。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>Debian in X1 Yoga 2018</title>
       <link>https://guojing.io/posts/debian-yoga/</link>
       <pubDate>Sun, 05 May 2019 00:00:00 +0000</pubDate>
@@ -1079,6 +1122,126 @@ etcd --auto-compaction-retention=1
 &lt;h2 id=&#34;联系我&#34;&gt;联系我&lt;/h2&gt;
 
 &lt;p&gt;实践过程中 google 了大量文档和教程，整理时我尽量找了印象深刻的文档的历史补充进来，但时间过去了很久不可能搜集完整，如果发现某部分内容侵犯了版权，可以联系我删除内容或者补充参考链接。若文档表述或者知识点有问题，来 &lt;a href=&#34;https://github.com/jing2uo/Blog&#34;&gt;https://github.com/jing2uo/Blog&lt;/a&gt; 提 issue 。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Privoxy 使用指南</title>
+      <link>https://guojing.io/posts/privoxy/</link>
+      <pubDate>Thu, 04 Oct 2018 00:00:00 +0000</pubDate>
+      <author>guojing.io (mail@guojing.io)</author>
+      <guid>https://guojing.io/posts/privoxy/</guid>
+      <description>&lt;p&gt;Privoxy：系统全局的代理管理工具。&lt;/p&gt;
+
+&lt;h3 id=&#34;简介精简版&#34;&gt;简介精简版&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.privoxy.org/&#34;&gt;Privoxy&lt;/a&gt;  是个很朴素但很强大的工具，基本功能和 &lt;a href=&#34;https://proxy-switchyomega.com/&#34;&gt;switchyomega&lt;/a&gt; 类似：根据规则来处理请求流向——但不仅限于影响浏览器，我理解它介于 iptables 和switchyomega 之间。可以把接收到的请求，根据规则转发到下一次代理：比如 1080 常用来翻墙，那么 google 就走1080，百度不需要翻墙就直连。还可以根据规则屏蔽广告和垃圾站点。&lt;/p&gt;
+
+&lt;h3 id=&#34;简介罗嗦故事版&#34;&gt;简介罗嗦故事版&lt;/h3&gt;
+
+&lt;p&gt;电脑联网了，就像在大山里的村庄有了一条通往市里的路，我们发起的所有请求，都会通过这条路走出去。有一天你发现这条路走下去，到另一个方向的城市会南辕北辙走不通，但是这条路附近呢又有另一个村子，到那边就能通了，所以你在路上开了一条小路去那个村子借道：第一个城市就是我们平常的请求比如百度淘宝知乎，第二条路走下去可能是谷歌脸书推特油管，也有可能是公司的内网环境，另一个村子就是 vpn，它或许是墙外的节点，或许是公司里那个看门的。&lt;/p&gt;
+
+&lt;p&gt;&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;这些路怎么走通往哪里，你知道了，但其他村民可能不知道，他们走到岔路口不知道它是通往哪里的，所以你就立了个路牌了做指向。Privoxy 是这个路牌，switchyomega 也是这个路牌，&lt;a href=&#34;https://www.proxifier.com/&#34;&gt;proxifier&lt;/a&gt; 也是路牌之一 ( mac 和 Windows  可用，有 GUI 和请求的详细日志，要花钱的 )。这样理解的话，所有类型的 vpn 该怎么用就都好配置了。&lt;/p&gt;
+
+&lt;p&gt;&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;不建议盲目开全局，虽然它可能经常是管用的，但实际上所有流量都走了 &amp;quot; 另一个村子 &amp;quot; 再绕回来，天寒地冻路远不说，而且像网易这样的 &amp;quot; 店面 &amp;quot;，绕一下它可能就不接待你了( 他只认你哪里来的 )。&lt;/p&gt;
+
+&lt;h3 id=&#34;安装&#34;&gt;安装&lt;/h3&gt;
+
+&lt;p&gt;各个 Linux 发行版源里都有，直接包管理器装即可。&lt;/p&gt;
+
+&lt;p&gt;mac 可以  &lt;code&gt;brew install privoxy&lt;/code&gt; ，然后用 brew sevices 子命令管理。( 官方也有提供&lt;a href=&#34;https://www.privoxy.org/sf-download-mirror/&#34;&gt;安装包&lt;/a&gt; )&lt;/p&gt;
+
+&lt;p&gt;Windows, 官方同样给了包和安装文档，但是等有空再写吧（其实基本就不想弄了…&lt;/p&gt;
+
+&lt;h3 id=&#34;配置&#34;&gt;配置&lt;/h3&gt;
+
+&lt;p&gt;debian 装 privoxy ，它的配置文件里注释写的跟论文一样长，最开始的时候就被吓退了。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;~ λ k -h /etc/privoxy
+ config                      # 主配置文件
+ default.action
+ default.filter
+ gfwlist.action              # 自己生成的，用了 gfwlist 清单
+ match-all.action 
+ regression-tests.action 
+ templates 
+ trust 
+ user.action
+ user.filter
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;config&lt;/strong&gt; 文件处理 :&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo echo &#39;actionsfile gfwlist.action&#39; &amp;gt;&amp;gt;/etc/privoxy/config
+# 让 privoxy 加载 gfwlist.action
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;gfwlist.action&lt;/strong&gt; 文件：&lt;/p&gt;
+
+&lt;p&gt;这个项目可以很方便的帮忙生成这个配置:  &lt;a href=&#34;https://github.com/zfl9/gfwlist2privoxy&#34;&gt;https://github.com/zfl9/gfwlist2privoxy&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;curl -4sSkLO https://raw.github.com/zfl9/gfwlist2privoxy/master/gfwlist2privoxy
+sudo mv gfwlist2privoxy /usr/local/bin &amp;amp;&amp;amp; sudo chmod a+x /usr/local/bin/gfwlist2privoxy
+# 放到 &amp;quot;PATH&amp;quot; 里保留，常用的
+
+bash gfwlist2privoxy 127.0.0.1:1080
+#  注意将 127.0.0.1:1080 替换为你的 socks5 地址
+
+sudo mv -f gfwlist.action /etc/privoxy/
+# gfwlist.action 移动到 privoxy 配置文件目录
+sudo systemctl restart privoxy
+# 重启一下确保配置生效
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;自定义配置&#34;&gt;自定义配置：&lt;/h4&gt;
+
+&lt;p&gt;如果你有公司的vpn，git 仓库或者其他办公站点也需要走代理，可以很方便的加一个配置。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo touch /etc/proxy/autovpn.action
+sudo echo &#39;actionsfile autovpn.action&#39; &amp;gt;&amp;gt;/etc/privoxy/config
+
+# 以下注释可以删除
+
+sudo cat &amp;gt; /etc/proxy/autovpn.action &amp;lt;&amp;lt;EOF
+{{alias}}
+alauda = +forward-override{forward-socks5 127.0.0.1:5087 .}
+# alias 是定义别名的意思，可以在此处定义转发规则
+{alauda}
+.alauda.io
+.alaudatech.com
+# 引用别名，在其后紧跟需要适配这个规则的域名
+# 支持泛域名，比如 .baidu.com 可以匹配 www.baidu.com，tieba.baidu.com
+EOF
+
+sudo systemctl restart privoxy
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;浏览器和终端使用privoxy&#34;&gt;浏览器和终端使用Privoxy：&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;chrome、firefox 有 switchyomega 这个插件可以处理转发规则，配置也简单，但需要各自配置，使用 Privoxy 可以集中在一个地方处理。修改浏览器的代理，使用 http localhost 8118 即可。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;终端&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;export  http_proxy=http://localhost:8118
+export  https_proxy=http://localhost:8118
+  
+# 可以将以上两行写入 .zshrc 或者 .bashrc
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;mate 桌面环境&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;mate desktop 提供了一个很方便的选项：首选项—&amp;gt; 互联网和网络—&amp;gt; 网络代理，直接配置后即可全局。&lt;/p&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;最后，根据国际惯例 ——  Fu*k，GFW！&lt;/p&gt;
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>

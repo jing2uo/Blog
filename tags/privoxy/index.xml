@@ -1,26 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>app on 郭靖 I/O</title>
-    <link>https://guojing.io/tags/app/</link>
-    <description>Recent content in app on 郭靖 I/O</description>
+    <title>privoxy on 郭靖 I/O</title>
+    <link>https://guojing.io/tags/privoxy/</link>
+    <description>Recent content in privoxy on 郭靖 I/O</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <managingEditor>mail@guojing.io (guojing.io)</managingEditor>
     <webMaster>mail@guojing.io (guojing.io)</webMaster>
-    <lastBuildDate>Sun, 10 Feb 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 04 Oct 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://guojing.io/tags/app/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://guojing.io/tags/privoxy/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Linux 应用推荐</title>
-      <link>https://guojing.io/posts/linux-apps/</link>
-      <pubDate>Sun, 10 Feb 2019 00:00:00 +0000</pubDate>
-      <author>mail@guojing.io (guojing.io)</author>
-      <guid>https://guojing.io/posts/linux-apps/</guid>
-      <description>&lt;p&gt;Linux 不仅是命令行强大，GUI也同样精致和高效。&lt;/p&gt;</description>
-    </item>
     
     <item>
       <title>Privoxy 使用指南</title>

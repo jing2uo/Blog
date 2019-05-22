@@ -3,7 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://guojing.io/days/</loc>
+    <loc>https://guojing.io/posts/</loc>
     <lastmod>2019-05-18T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -21,7 +21,7 @@
   </url>
   
   <url>
-    <loc>https://guojing.io/days/tieba/</loc>
+    <loc>https://guojing.io/posts/tieba/</loc>
     <lastmod>2019-05-18T00:00:00+00:00</lastmod>
   </url>
   
@@ -42,20 +42,9 @@
   </url>
   
   <url>
-    <loc>https://guojing.io/posts/</loc>
-    <lastmod>2019-05-05T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://guojing.io/tags/thinkpad/</loc>
     <lastmod>2019-05-05T00:00:00+00:00</lastmod>
     <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://guojing.io/days/996/</loc>
-    <lastmod>2019-04-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -106,6 +95,23 @@
   <url>
     <loc>https://guojing.io/tags/kubernetes/</loc>
     <lastmod>2019-01-28T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://guojing.io/posts/privoxy/</loc>
+    <lastmod>2018-10-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://guojing.io/tags/privoxy/</loc>
+    <lastmod>2018-10-04T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://guojing.io/tags/proxy/</loc>
+    <lastmod>2018-10-04T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -162,11 +168,6 @@
   
   <url>
     <loc>https://guojing.io/categories/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://guojing.io/series/</loc>
     <priority>0</priority>
   </url>
   

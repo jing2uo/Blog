@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  
+  <meta name="author"
+        content="guojing.io"/>
+
+  
+  <meta name="description" content="Privoxy：系统全局的代理管理工具。
+"/>
+  
+
+  
+  
+  <meta name="keywords" content="Kubernetes, Devops, Python, Debian"/>
+  
+
+  
+  <link rel="canonical" href="https://guojing.io/posts/privoxy/"/>
+
+  
+
+  <title>Privoxy 使用指南 &middot; 郭靖 I/O</title>
+
+  <link rel="shortcut icon" href="https://guojing.io/images/favicon.ico"/>
+  <link rel="stylesheet" href="https://guojing.io/css/animate.min.css"/>
+  <link rel="stylesheet" href="https://guojing.io/css/remixicon.css"/>
+  <link rel="stylesheet" href="https://guojing.io/css/zozo.css"/>
+  <link rel="stylesheet" href="https://guojing.io/css/highlight.css"/>
+
+  
+  
+</head>
+
+<body>
+<div class="main animated">
+  <div class="nav_container animated fadeInDown">
+  <div class="site_nav" id="site_nav">
+    <ul>
+      
+      <li>
+        <a href="/">首页</a>
+      </li>
+      
+      <li>
+        <a href="/posts/">归档</a>
+      </li>
+      
+      <li>
+        <a href="/tags/">标签</a>
+      </li>
+      
+      <li>
+        <a href="/about/">关于</a>
+      </li>
+      
+    </ul>
+  </div>
+  <div class="menu_icon">
+    <a id="menu_icon"><i class="remixicon-links-line"></i></a>
+  </div>
+</div>
+
+  <div class="header animated fadeInDown">
+  <div class="site_title_container">
+    <div class="site_title">
+      <h1>
+        <a href="https://guojing.io/">
+          <span>郭靖 I/O</span>
+          <img src="https://guojing.io/images/logo.png"/>
+        </a>
+      </h1>
+    </div>
+    <div class="description">
+      <p class="sub_title">文科生 / 网管 / 看书写字 / 动漫 / 不爱国</p>
+      <div class="my_socials">
+        
+        
+        <a href="https://github.com/jing2uo" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
+        
+        
+        
+        <a href="mailto:mail@guojing.io" title="mail" target="_blank"><i class="remixicon-mail-fill"></i></a>
+        
+        
+        <a href="https://guojing.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+      table{
+        border-left:1px solid #000000;border-top:1px solid #000000;
+        width: 100%;
+        word-wrap:break-word; word-break:break-all;
+      }
+      table th{
+      text-align:center;
+      }
+      table th,td{
+        border-right:1px solid #000000;border-bottom:1px solid #000000;
+      }
+</style>
+
+  <div class="content">
+    <div class="post_page">
+      <div class="post animated fadeInDown">
+        <div class="post_title post_detail_title">
+          <h2><a href='/posts/privoxy/'>Privoxy 使用指南</a></h2>
+          <span class="date">2018.10.04</span>
+        </div>
+        <div class="post_content markdown"><p>Privoxy：系统全局的代理管理工具。</p>
+
+<h3 id="简介精简版">简介精简版</h3>
+
+<p><a href="https://www.privoxy.org/">Privoxy</a>  是个很朴素但很强大的工具，基本功能和 <a href="https://proxy-switchyomega.com/">switchyomega</a> 类似：根据规则来处理请求流向——但不仅限于影响浏览器，我理解它介于 iptables 和switchyomega 之间。可以把接收到的请求，根据规则转发到下一次代理：比如 1080 常用来翻墙，那么 google 就走1080，百度不需要翻墙就直连。还可以根据规则屏蔽广告和垃圾站点。</p>
+
+<h3 id="简介罗嗦故事版">简介罗嗦故事版</h3>
+
+<p>电脑联网了，就像在大山里的村庄有了一条通往市里的路，我们发起的所有请求，都会通过这条路走出去。有一天你发现这条路走下去，到另一个方向的城市会南辕北辙走不通，但是这条路附近呢又有另一个村子，到那边就能通了，所以你在路上开了一条小路去那个村子借道：第一个城市就是我们平常的请求比如百度淘宝知乎，第二条路走下去可能是谷歌脸书推特油管，也有可能是公司的内网环境，另一个村子就是 vpn，它或许是墙外的节点，或许是公司里那个看门的。</p>
+
+<p></br></p>
+
+<p>这些路怎么走通往哪里，你知道了，但其他村民可能不知道，他们走到岔路口不知道它是通往哪里的，所以你就立了个路牌了做指向。Privoxy 是这个路牌，switchyomega 也是这个路牌，<a href="https://www.proxifier.com/">proxifier</a> 也是路牌之一 ( mac 和 Windows  可用，有 GUI 和请求的详细日志，要花钱的 )。这样理解的话，所有类型的 vpn 该怎么用就都好配置了。</p>
+
+<p></br></p>
+
+<p>不建议盲目开全局，虽然它可能经常是管用的，但实际上所有流量都走了 &quot; 另一个村子 &quot; 再绕回来，天寒地冻路远不说，而且像网易这样的 &quot; 店面 &quot;，绕一下它可能就不接待你了( 他只认你哪里来的 )。</p>
+
+<h3 id="安装">安装</h3>
+
+<p>各个 Linux 发行版源里都有，直接包管理器装即可。</p>
+
+<p>mac 可以  <code>brew install privoxy</code> ，然后用 brew sevices 子命令管理。( 官方也有提供<a href="https://www.privoxy.org/sf-download-mirror/">安装包</a> )</p>
+
+<p>Windows, 官方同样给了包和安装文档，但是等有空再写吧（其实基本就不想弄了…</p>
+
+<h3 id="配置">配置</h3>
+
+<p>debian 装 privoxy ，它的配置文件里注释写的跟论文一样长，最开始的时候就被吓退了。</p>
+
+<pre><code>~ λ k -h /etc/privoxy
+ config                      # 主配置文件
+ default.action
+ default.filter
+ gfwlist.action              # 自己生成的，用了 gfwlist 清单
+ match-all.action 
+ regression-tests.action 
+ templates 
+ trust 
+ user.action
+ user.filter
+</code></pre>
+
+<p><strong>config</strong> 文件处理 :</p>
+
+<pre><code>sudo echo 'actionsfile gfwlist.action' &gt;&gt;/etc/privoxy/config
+# 让 privoxy 加载 gfwlist.action
+</code></pre>
+
+<p><strong>gfwlist.action</strong> 文件：</p>
+
+<p>这个项目可以很方便的帮忙生成这个配置:  <a href="https://github.com/zfl9/gfwlist2privoxy">https://github.com/zfl9/gfwlist2privoxy</a></p>
+
+<pre><code>curl -4sSkLO https://raw.github.com/zfl9/gfwlist2privoxy/master/gfwlist2privoxy
+sudo mv gfwlist2privoxy /usr/local/bin &amp;&amp; sudo chmod a+x /usr/local/bin/gfwlist2privoxy
+# 放到 &quot;PATH&quot; 里保留，常用的
+
+bash gfwlist2privoxy 127.0.0.1:1080
+#  注意将 127.0.0.1:1080 替换为你的 socks5 地址
+
+sudo mv -f gfwlist.action /etc/privoxy/
+# gfwlist.action 移动到 privoxy 配置文件目录
+sudo systemctl restart privoxy
+# 重启一下确保配置生效
+</code></pre>
+
+<h4 id="自定义配置">自定义配置：</h4>
+
+<p>如果你有公司的vpn，git 仓库或者其他办公站点也需要走代理，可以很方便的加一个配置。</p>
+
+<pre><code>sudo touch /etc/proxy/autovpn.action
+sudo echo 'actionsfile autovpn.action' &gt;&gt;/etc/privoxy/config
+
+# 以下注释可以删除
+
+sudo cat &gt; /etc/proxy/autovpn.action &lt;&lt;EOF
+{{alias}}
+alauda = +forward-override{forward-socks5 127.0.0.1:5087 .}
+# alias 是定义别名的意思，可以在此处定义转发规则
+{alauda}
+.alauda.io
+.alaudatech.com
+# 引用别名，在其后紧跟需要适配这个规则的域名
+# 支持泛域名，比如 .baidu.com 可以匹配 www.baidu.com，tieba.baidu.com
+EOF
+
+sudo systemctl restart privoxy
+</code></pre>
+
+<h4 id="浏览器和终端使用privoxy">浏览器和终端使用Privoxy：</h4>
+
+<ul>
+<li><p>chrome、firefox 有 switchyomega 这个插件可以处理转发规则，配置也简单，但需要各自配置，使用 Privoxy 可以集中在一个地方处理。修改浏览器的代理，使用 http localhost 8118 即可。</p></li>
+
+<li><p>终端</p>
+
+<pre><code>export  http_proxy=http://localhost:8118
+export  https_proxy=http://localhost:8118
+  
+# 可以将以上两行写入 .zshrc 或者 .bashrc
+</code></pre></li>
+
+<li><p>mate 桌面环境</p></li>
+</ul>
+
+<p>mate desktop 提供了一个很方便的选项：首选项—&gt; 互联网和网络—&gt; 网络代理，直接配置后即可全局。</p>
+
+<p><br></p>
+
+<blockquote>
+<p>最后，根据国际惯例 ——  Fu*k，GFW！</p>
+</blockquote></div>
+        <div class="post_footer">
+          
+          <div class="meta">
+            <div class="info">
+              <span class="field tags">
+                <i class="remixicon-stack-line"></i>
+                
+                <a href="https://guojing.io/tags/privoxy/">privoxy</a>
+                
+                <a href="https://guojing.io/tags/app/">app</a>
+                
+                <a href="https://guojing.io/tags/proxy/">proxy</a>
+                
+              </span>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      
+      
+    </div>
+  </div>
+  <a id="back_to_top" href="#" class="back_to_top"><span>△</span></a>
+</div>
+<footer class="footer">
+  <div class="footer_slogan">
+    <span>The quieter you become, the more you can hear.</span>
+  </div>
+</footer>
+
+
+
+<script src="https://guojing.io/js/jquery-3.3.1.min.js"></script>
+<script src="https://guojing.io/js/zozo.js"></script>
+<script src="https://guojing.io/js/highlight.pack.js"></script>
+<link  href="https://guojing.io/css/fancybox.min.css" rel="stylesheet">
+<script src="https://guojing.io/js/fancybox.min.js"></script>
+
+<script>hljs.initHighlightingOnLoad()</script>
+
+
+  <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-140400448-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+</body>
+</html>
