@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>text on 郭靖 I/O</title>
+    <link>https://guojing.io/tags/text/</link>
+    <description>Recent content in text on 郭靖 I/O</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <managingEditor>mail@guojing.io (guojing.io)</managingEditor>
+    <webMaster>mail@guojing.io (guojing.io)</webMaster>
+    <lastBuildDate>Fri, 31 May 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://guojing.io/tags/text/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>来自纯文本的善意</title>
+      <link>https://guojing.io/posts/awesome-txt/</link>
+      <pubDate>Fri, 31 May 2019 00:00:00 +0000</pubDate>
+      <author>mail@guojing.io (guojing.io)</author>
+      <guid>https://guojing.io/posts/awesome-txt/</guid>
+      <description>&lt;p&gt;我觉得纯文本是这类美好事物的典型代表：简单、开放、稳定。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
