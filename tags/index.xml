@@ -14,11 +14,11 @@
     
     
     <item>
-      <title>text</title>
-      <link>https://guojing.io/tags/text/</link>
+      <title>plain-text</title>
+      <link>https://guojing.io/tags/plain-text/</link>
       <pubDate>Fri, 31 May 2019 00:00:00 +0000</pubDate>
       <author>mail@guojing.io (guojing.io)</author>
-      <guid>https://guojing.io/tags/text/</guid>
+      <guid>https://guojing.io/tags/plain-text/</guid>
       <description></description>
     </item>
     
@@ -163,6 +163,15 @@
       <pubDate>Fri, 22 Dec 2017 00:00:00 +0000</pubDate>
       <author>mail@guojing.io (guojing.io)</author>
       <guid>https://guojing.io/tags/yaml/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tips</title>
+      <link>https://guojing.io/tags/tips/</link>
+      <pubDate>Mon, 06 Mar 2017 00:00:00 +0000</pubDate>
+      <author>mail@guojing.io (guojing.io)</author>
+      <guid>https://guojing.io/tags/tips/</guid>
       <description></description>
     </item>
     

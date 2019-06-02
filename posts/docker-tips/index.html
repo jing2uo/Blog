@@ -10,7 +10,7 @@
         content="guojing.io"/>
 
   
-  <meta name="description" content="郭靖的博客，随便写写。"/>
+  <meta name="description" content="制作自己的 base 镜像 docker 镜像本质是一个 tar 包，可以直接把正在使用的 os 打包 import 使用，debootstrap 是 deb 系提供的一个系统安装工具，提供 chroot 临时环境极为方便，做 docker 用的 base 镜像当然也很简单。 ~ λ sudo apt install debootstrap ~ λ sudo debootstrap buster buster/"/>
   
 
   
@@ -19,13 +19,11 @@
   
 
   
-  <link rel="canonical" href="https://guojing.io/tags/"/>
+  <link rel="canonical" href="https://guojing.io/posts/docker-tips/"/>
 
   
-  <link rel="alternate" type="application/rss&#43;xml" href="https://guojing.io/tags/index.xml">
-  
 
-  <title>Tags &middot; 郭靖 I/O</title>
+  <title>Docker 的一些信息 &middot; 郭靖 I/O</title>
 
   <link rel="shortcut icon" href="https://guojing.io/images/favicon.ico"/>
   <link rel="stylesheet" href="https://guojing.io/css/animate.min.css"/>
@@ -108,157 +106,97 @@
 </style>
 
   <div class="content">
-    <div class="page_tags">
-      <ul>
-        
-        
-        
-        <li>
-          <a href="https://guojing.io/tags/linux">
-            linux <span class="terms_count">3</span>
-          </a>
-        </li>
-        
-        
-        
-        <li>
-          <a href="https://guojing.io/tags/app">
-            app <span class="terms_count">2</span>
-          </a>
-        </li>
-        
-        
-        
-        <li>
-          <a href="https://guojing.io/tags/debian">
-            debian <span class="terms_count">2</span>
-          </a>
-        </li>
-        
-        
-        
-        <li>
-          <a href="https://guojing.io/tags/docker">
-            docker <span class="terms_count">2</span>
-          </a>
-        </li>
-        
-        
-        
-        <li>
-          <a href="https://guojing.io/tags/ansible">
-            ansible <span class="terms_count">1</span>
-          </a>
-        </li>
-        
-        
-        
-        <li>
-          <a href="https://guojing.io/tags/bootloader">
-            bootloader <span class="terms_count">1</span>
-          </a>
-        </li>
-        
-        
-        
-        <li>
-          <a href="https://guojing.io/tags/etcd">
-            etcd <span class="terms_count">1</span>
-          </a>
-        </li>
-        
-        
-        
-        <li>
-          <a href="https://guojing.io/tags/gitlab">
-            gitlab <span class="terms_count">1</span>
-          </a>
-        </li>
-        
-        
-        
-        <li>
-          <a href="https://guojing.io/tags/kubernetes">
-            kubernetes <span class="terms_count">1</span>
-          </a>
-        </li>
-        
-        
-        
-        <li>
-          <a href="https://guojing.io/tags/plain-text">
-            plain-text <span class="terms_count">1</span>
-          </a>
-        </li>
-        
-        
-        
-        <li>
-          <a href="https://guojing.io/tags/privoxy">
-            privoxy <span class="terms_count">1</span>
-          </a>
-        </li>
-        
-        
-        
-        <li>
-          <a href="https://guojing.io/tags/proxy">
-            proxy <span class="terms_count">1</span>
-          </a>
-        </li>
-        
-        
-        
-        <li>
-          <a href="https://guojing.io/tags/refind">
-            refind <span class="terms_count">1</span>
-          </a>
-        </li>
-        
-        
-        
-        <li>
-          <a href="https://guojing.io/tags/ssh">
-            ssh <span class="terms_count">1</span>
-          </a>
-        </li>
-        
-        
-        
-        <li>
-          <a href="https://guojing.io/tags/thinkpad">
-            thinkpad <span class="terms_count">1</span>
-          </a>
-        </li>
-        
-        
-        
-        <li>
-          <a href="https://guojing.io/tags/tips">
-            tips <span class="terms_count">1</span>
-          </a>
-        </li>
-        
-        
-        
-        <li>
-          <a href="https://guojing.io/tags/yaml">
-            yaml <span class="terms_count">1</span>
-          </a>
-        </li>
-        
-        
-        
-        <li>
-          <a href="https://guojing.io/tags/zsh">
-            zsh <span class="terms_count">1</span>
-          </a>
-        </li>
-        
-        
-      </ul>
+    <div class="post_page">
+      <div class="post animated fadeInDown">
+        <div class="post_title post_detail_title">
+          <h2><a href='/posts/docker-tips/'>Docker 的一些信息</a></h2>
+          <span class="date">2017.03.06</span>
+        </div>
+        <div class="post_content markdown">
+
+<h3 id="制作自己的-base-镜像">制作自己的 base 镜像</h3>
+
+<p>docker 镜像本质是一个 tar 包，可以直接把正在使用的 os 打包 import 使用，debootstrap 是 deb 系提供的一个系统安装工具，提供 chroot 临时环境极为方便，做 docker 用的 base 镜像当然也很简单。</p>
+
+<pre><code>~ λ sudo apt install debootstrap
+~ λ sudo debootstrap buster buster/ http://mirrors.ustc.edu.cn/debian
+~ λ sudo tar -C buster -c . | sudo docker import - debian:baster
+</code></pre>
+
+<h3 id="不要-sudo">不要 sudo</h3>
+
+<p>普通用户默认情况下不可直接执行 docker 命令，需要sudo权限，如需要，可将 用户 加入 docker 组——</p>
+
+<pre><code>~$ sudo usermod -a -G docker xxxxxxx              # xxxxxxx为用户名，需注销重新登录。
+</code></pre>
+
+<h3 id="docker-info-警告">docker info 警告</h3>
+
+<p>Debian系发行版默认情况下，执行docker info会返回警告——</p>
+
+<pre><code>~$ docker info
+[...]
+WARNING: No kernel memory limit support
+</code></pre>
+
+<p>消除方法是在GRUB配置文件中添加内核参数——</p>
+
+<pre><code>~$ sudo cat /etc/default/grub
+[...]
+GRUB_CMDLINE_LINUX=&quot;cgroup_enable=memory swapaccount=1&quot;
+[...]
+~$ sudo update-grub2
+~$ sudo reboot                      # 需要重启
+</code></pre>
+
+<h3 id="docker-compose-和-registry">docker-compose 和 registry</h3>
+
+<p>docker-compose 是一个编排工具，可通过 pip 安装。</p>
+
+<p>在阿里云 VPC 内的 ECS 实例上开启一个后端存储为 OSS 的私有仓库——</p>
+
+<pre><code>~# docker-compose -f registry.yaml up &amp;
+
+---
+registry:
+  restart: always
+  image: registry:2.5.1
+  ports:
+    - 5000:5000
+  environment:
+    - REGISTRY_HTTP_ADDR=0.0.0.0:5000
+    - REGISTRY_STORAGE=oss
+    - REGISTRY_STORAGE_OSS_INTERNAL=true
+    - REGISTRY_STORAGE_OSS_SECURE=false
+    - REGISTRY_STORAGE_OSS_ACCESSKEYID={{ access_key }}
+    - REGISTRY_STORAGE_OSS_ACCESSKEYSECRET={{ secret_key }}
+    - REGISTRY_STORAGE_OSS_BUCKET={{ oss_bucket }}
+    - REGISTRY_STORAGE_OSS_REGION={{ oss_region }}
+    - REGISTRY_STORAGE_OSS_ENDPOINT={{ oss_bucket }}.vpc100-{{ oss_region }}.aliyuncs.com
+    - REGISTRY_STORAGE_OSS_ROOTDIRECTORY=registry_v2
+    - REGISTRY_STORAGE_DELETE_ENABLED=True
+</code></pre>
+</div>
+        <div class="post_footer">
+          
+          <div class="meta">
+            <div class="info">
+              <span class="field tags">
+                <i class="remixicon-stack-line"></i>
+                
+                <a href="https://guojing.io/tags/docker/">docker</a>
+                
+                <a href="https://guojing.io/tags/tips/">tips</a>
+                
+              </span>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      
+      
     </div>
-    <div class="pagination"></div>
   </div>
   <a id="back_to_top" href="#" class="back_to_top"><span>△</span></a>
 </div>

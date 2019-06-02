@@ -15,10 +15,10 @@
     
     <item>
       <title>来自纯文本的善意</title>
-      <link>https://guojing.io/posts/awesome-txt/</link>
+      <link>https://guojing.io/posts/awesome-plain-text/</link>
       <pubDate>Fri, 31 May 2019 00:00:00 +0000</pubDate>
       <author>mail@guojing.io (guojing.io)</author>
-      <guid>https://guojing.io/posts/awesome-txt/</guid>
+      <guid>https://guojing.io/posts/awesome-plain-text/</guid>
       <description>&lt;p&gt;我觉得纯文本是这类美好事物的典型代表：简单、开放、稳定。&lt;/p&gt;</description>
     </item>
     
@@ -101,6 +101,15 @@
       <author>mail@guojing.io (guojing.io)</author>
       <guid>https://guojing.io/posts/yaml-demo/</guid>
       <description>&lt;p&gt;gitlab CI，Ansible Playbook，docker-compose，都需要用到 yaml 文件。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Docker 的一些信息</title>
+      <link>https://guojing.io/posts/docker-tips/</link>
+      <pubDate>Mon, 06 Mar 2017 00:00:00 +0000</pubDate>
+      <author>mail@guojing.io (guojing.io)</author>
+      <guid>https://guojing.io/posts/docker-tips/</guid>
+      <description>制作自己的 base 镜像 docker 镜像本质是一个 tar 包，可以直接把正在使用的 os 打包 import 使用，debootstrap 是 deb 系提供的一个系统安装工具，提供 chroot 临时环境极为方便，做 docker 用的 base 镜像当然也很简单。 ~ λ sudo apt install debootstrap ~ λ sudo debootstrap buster buster/</description>
     </item>
     
   </channel>

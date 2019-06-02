@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  
+  <meta name="author"
+        content="guojing.io"/>
+
+  
+  <meta name="description" content="我觉得纯文本是这类美好事物的典型代表：简单、开放、稳定。
+"/>
+  
+
+  
+  
+  <meta name="keywords" content="Kubernetes, Devops, Python, Debian"/>
+  
+
+  
+  <link rel="canonical" href="https://guojing.io/posts/awesome-plain-text/"/>
+
+  
+
+  <title>来自纯文本的善意 &middot; 郭靖 I/O</title>
+
+  <link rel="shortcut icon" href="https://guojing.io/images/favicon.ico"/>
+  <link rel="stylesheet" href="https://guojing.io/css/animate.min.css"/>
+  <link rel="stylesheet" href="https://guojing.io/css/remixicon.css"/>
+  <link rel="stylesheet" href="https://guojing.io/css/zozo.css"/>
+  <link rel="stylesheet" href="https://guojing.io/css/highlight.css"/>
+
+  
+  
+</head>
+
+<body>
+<div class="main animated">
+  <div class="nav_container animated fadeInDown">
+  <div class="site_nav" id="site_nav">
+    <ul>
+      
+      <li>
+        <a href="/">首页</a>
+      </li>
+      
+      <li>
+        <a href="/posts/">归档</a>
+      </li>
+      
+      <li>
+        <a href="/tags/">标签</a>
+      </li>
+      
+      <li>
+        <a href="/about/">关于</a>
+      </li>
+      
+    </ul>
+  </div>
+  <div class="menu_icon">
+    <a id="menu_icon"><i class="remixicon-links-line"></i></a>
+  </div>
+</div>
+
+  <div class="header animated fadeInDown">
+  <div class="site_title_container">
+    <div class="site_title">
+      <h1>
+        <a href="https://guojing.io/">
+          <span>郭靖 I/O</span>
+          <img src="https://guojing.io/images/logo.png"/>
+        </a>
+      </h1>
+    </div>
+    <div class="description">
+      <p class="sub_title">文科生 / 网管 / 看书写字 / 动漫 / 不爱国</p>
+      <div class="my_socials">
+        
+        
+        <a href="https://github.com/jing2uo" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
+        
+        
+        
+        <a href="mailto:mail@guojing.io" title="mail" target="_blank"><i class="remixicon-mail-fill"></i></a>
+        
+        
+        <a href="https://guojing.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+      table{
+        border-left:1px solid #000000;border-top:1px solid #000000;
+        width: 100%;
+        word-wrap:break-word; word-break:break-all;
+      }
+      table th{
+      text-align:center;
+      }
+      table th,td{
+        border-right:1px solid #000000;border-bottom:1px solid #000000;
+      }
+</style>
+
+  <div class="content">
+    <div class="post_page">
+      <div class="post animated fadeInDown">
+        <div class="post_title post_detail_title">
+          <h2><a href='/posts/awesome-plain-text/'>来自纯文本的善意</a></h2>
+          <span class="date">2019.05.31</span>
+        </div>
+        <div class="post_content markdown"><p>我觉得纯文本是这类美好事物的典型代表：简单、开放、稳定。</p>
+
+<p></br></p>
+
+<p>朋友问，为什么程序员大部分不怎么放图片？确定他的意思确实是指纯文本之后，我回：因为纯文本真的很好用啊。想了想，我似乎在很多地方解释过类似的事，所以整理一下，下次回答可以贴链接。</p>
+
+<p></br></p>
+
+<p>在 <code>Linux哲学</code>里有一条，就是使用纯文本作为数据存储的媒介。在有 ” 管道 “ 和 ” 重定向 “ 的命令行世界里，使用纯文本让所有的小程序都能毫无阻碍的传递并且处理信息，<code>cat  cut  grep  awk  sort  uniq</code>  , 再配合一点点基础的正则，可以极大的方便生活。为了避免被吐槽只有程序员和运维才用的到这种奇怪的技巧，举个栗子：毕业之前班长和学委需要把同学全部论文做个表交给组织，但由于没经验事先没要求大家用统一的题目格式，所以最后我拿到手里的一百多份文件，标题不仅包含学号姓名和论文题目，还有大家自作主张添加的书名号破折号空格顿号等等，而且顺序不一致。如果手动把 100 多个文件重命名再复制到 word 我会疯掉的！那时候我用 debian 已经有两年，所以 <code>ls</code>  列出文件 <code>sed</code> 去除特殊字符 <code>awk</code>  取列 <code>sort</code> 以学号排序，必要时配合几下 <code>vim</code> 的列编辑模式，没超过 5  分钟整个表格就漂亮的完成了（虽然最后交给领导老师的还是 <code>excel</code> … ）</p>
+
+<p></br></p>
+
+<p>处理的整个过程，我没有打开哪个专门的应用，更不用说要下安装包甚至破解什么的。那时候感觉 Linux 哲学救了我一命。后来这些技巧帮我扛下面试官日志抓取题的次数一只手数不过来～但不仅仅是因为我从中获利才会取这样一个标题，再说些容易懂的案例吧。</p>
+
+<p></br></p>
+
+<p>在灵雀的工作经常需要用到远程协助的功能，<code>Teamviewer</code> 需要知道对方的 ID 和密码才能连接。而我判断对面同事是不是会为他人着想，是不是足够友善的一个点是：他发 tv ID 和密码，是截图还是复制过来的。截图和复制对发送方来说，工作量几乎相同，动动鼠标就好了。但是对接受方来说，截图需要我盯着屏幕敲键盘，有可能按错还需要找一下哪个数字再改，于是这次碰头就变得枯燥而让人生厌。图片在需要复制粘贴和编辑的场景下，比 doc 格式还可恶，被压进图片的消息想拿出来，要不是要命的手动输入一次，要不就得寻找优秀的 ocr 工具。</p>
+
+<p></br></p>
+
+<p>问我这个问题的朋友刚好是画画的，我更多的解释了一下，纯文本类似他工作时用的 <code>psd</code> 文件，而截图或者其他专有格式比如 <code>doc</code> <code>caj</code> <code>mobi</code> 甚至包括 <code>pdf</code>，就像他在需要修改一个图时接收了一份 <code>png</code> 或者 <code>jpg</code>。还有就是微信聊天对方发来语音，尤其是不能转文字的方言，需要点击公放可能影响别人是其次，不能复制粘贴，不能用聊天记录的搜索功能超级不方便，当急需一个信息而你面对好几屏幕语音时～体会一下。再还有，电话号码你收到了通讯录的截图，快递单号你收到了淘宝的截图，身份证号你收到了照片甚至小视频，等等。</p>
+
+<p></br></p>
+
+<p>纯文本这个词表述很准确。不仅仅说明需是文本，还要求不是专有格式（不依赖于需要专门安装甚至付费授权的应用），还有一种不那么常见但时间跨度久都会发生的是：可能商业软件公司倒闭了，那个应用多年前就不更新了，而你刚好需要，比如小时候很火的 rm 格式视频文件情况就很类似，还有多年来把日记写在某些特殊的应用里，最后他们不更新不维护了，而纯文本是很稳定的，作为一个最基本的数据存储类型，只要这个世界还有计算机，就能够被读取和编辑。</p>
+
+<p></br></p>
+
+<p>那么，是所有时候都要用纯文本嘛？比如一屏几十行的代码、或者一页 A4 纸的表格，比如一篇很正式有层级有目录的通告和论文，当他们被贴到微信这种不支持格式化和高亮的应用里时 ……</p>
+
+<p></br></p>
+
+<p>所以其实我还是需要改一下标题的，善意、体谅、设身处地、推己及人这些像阳光般温暖的字眼及动作，最后还是来自那些温柔的人们。希望你是，然后遇见。</p></div>
+        <div class="post_footer">
+          
+          <div class="meta">
+            <div class="info">
+              <span class="field tags">
+                <i class="remixicon-stack-line"></i>
+                
+                <a href="https://guojing.io/tags/plain-text/">plain-text</a>
+                
+              </span>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      
+      
+    </div>
+  </div>
+  <a id="back_to_top" href="#" class="back_to_top"><span>△</span></a>
+</div>
+<footer class="footer">
+  <div class="footer_slogan">
+    <span>The quieter you become, the more you can hear.</span>
+  </div>
+</footer>
+
+
+
+<script src="https://guojing.io/js/jquery-3.3.1.min.js"></script>
+<script src="https://guojing.io/js/zozo.js"></script>
+<script src="https://guojing.io/js/highlight.pack.js"></script>
+<link  href="https://guojing.io/css/fancybox.min.css" rel="stylesheet">
+<script src="https://guojing.io/js/fancybox.min.js"></script>
+
+<script>hljs.initHighlightingOnLoad()</script>
+
+
+  <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-140400448-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+</body>
+</html>

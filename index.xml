@@ -14,10 +14,10 @@
     
     <item>
       <title>来自纯文本的善意</title>
-      <link>https://guojing.io/posts/awesome-txt/</link>
+      <link>https://guojing.io/posts/awesome-plain-text/</link>
       <pubDate>Fri, 31 May 2019 00:00:00 +0000</pubDate>
       <author>guojing.io (mail@guojing.io)</author>
-      <guid>https://guojing.io/posts/awesome-txt/</guid>
+      <guid>https://guojing.io/posts/awesome-plain-text/</guid>
       <description>&lt;p&gt;我觉得纯文本是这类美好事物的典型代表：简单、开放、稳定。&lt;/p&gt;
 
 &lt;p&gt;&lt;/br&gt;&lt;/p&gt;
@@ -26,7 +26,7 @@
 
 &lt;p&gt;&lt;/br&gt;&lt;/p&gt;
 
-&lt;p&gt;在 &lt;code&gt;Linux哲学&lt;/code&gt;里有一条，就是使用纯文本作为数据存储的媒介。在有 ” 管道 “ 和 ” 重定向 “ 的命令行世界里，使用纯文本让所有的小程序都能毫无阻碍的传递并且处理信息，&lt;code&gt;cat  cut  grep  awk  sort  uniq&lt;/code&gt;  , 再配合一点点基础的正则，可以极大的方便生活。为了避免被吐槽只有程序员和运维才用得到的这种奇怪的技巧，举个栗子：毕业之前班长和学委需要把同学全部论文做个表交给组织，但由于没经验事先没要求大家用统一的题目格式，所以最后我拿到手里的一百多份文件，标题不仅包含学号姓名和论文题目，还有大家自作主张添加的书名号破折号空格顿号等等，而且顺序不一致。如果手动把 100 多个文件重命名再复制到 word 我会疯掉的！那时候我用 debian 已经有两年，所以 &lt;code&gt;ls&lt;/code&gt;  列出文件 &lt;code&gt;sed&lt;/code&gt; 去除特殊字符 &lt;code&gt;awk&lt;/code&gt;  取列 &lt;code&gt;sort&lt;/code&gt; 以学号排序，必要时配合几下 &lt;code&gt;vim&lt;/code&gt; 的列编辑模式，没超过 5  分钟整个表格就漂亮的完成了（虽然最后交给领导老师的还是 &lt;code&gt;excel&lt;/code&gt; … ）&lt;/p&gt;
+&lt;p&gt;在 &lt;code&gt;Linux哲学&lt;/code&gt;里有一条，就是使用纯文本作为数据存储的媒介。在有 ” 管道 “ 和 ” 重定向 “ 的命令行世界里，使用纯文本让所有的小程序都能毫无阻碍的传递并且处理信息，&lt;code&gt;cat  cut  grep  awk  sort  uniq&lt;/code&gt;  , 再配合一点点基础的正则，可以极大的方便生活。为了避免被吐槽只有程序员和运维才用的到这种奇怪的技巧，举个栗子：毕业之前班长和学委需要把同学全部论文做个表交给组织，但由于没经验事先没要求大家用统一的题目格式，所以最后我拿到手里的一百多份文件，标题不仅包含学号姓名和论文题目，还有大家自作主张添加的书名号破折号空格顿号等等，而且顺序不一致。如果手动把 100 多个文件重命名再复制到 word 我会疯掉的！那时候我用 debian 已经有两年，所以 &lt;code&gt;ls&lt;/code&gt;  列出文件 &lt;code&gt;sed&lt;/code&gt; 去除特殊字符 &lt;code&gt;awk&lt;/code&gt;  取列 &lt;code&gt;sort&lt;/code&gt; 以学号排序，必要时配合几下 &lt;code&gt;vim&lt;/code&gt; 的列编辑模式，没超过 5  分钟整个表格就漂亮的完成了（虽然最后交给领导老师的还是 &lt;code&gt;excel&lt;/code&gt; … ）&lt;/p&gt;
 
 &lt;p&gt;&lt;/br&gt;&lt;/p&gt;
 
@@ -1574,6 +1574,79 @@ registry:
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;更多帮助请参考各部分官方文档。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Docker 的一些信息</title>
+      <link>https://guojing.io/posts/docker-tips/</link>
+      <pubDate>Mon, 06 Mar 2017 00:00:00 +0000</pubDate>
+      <author>guojing.io (mail@guojing.io)</author>
+      <guid>https://guojing.io/posts/docker-tips/</guid>
+      <description>
+
+&lt;h3 id=&#34;制作自己的-base-镜像&#34;&gt;制作自己的 base 镜像&lt;/h3&gt;
+
+&lt;p&gt;docker 镜像本质是一个 tar 包，可以直接把正在使用的 os 打包 import 使用，debootstrap 是 deb 系提供的一个系统安装工具，提供 chroot 临时环境极为方便，做 docker 用的 base 镜像当然也很简单。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;~ λ sudo apt install debootstrap
+~ λ sudo debootstrap buster buster/ http://mirrors.ustc.edu.cn/debian
+~ λ sudo tar -C buster -c . | sudo docker import - debian:baster
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;不要-sudo&#34;&gt;不要 sudo&lt;/h3&gt;
+
+&lt;p&gt;普通用户默认情况下不可直接执行 docker 命令，需要sudo权限，如需要，可将 用户 加入 docker 组——&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;~$ sudo usermod -a -G docker xxxxxxx              # xxxxxxx为用户名，需注销重新登录。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;docker-info-警告&#34;&gt;docker info 警告&lt;/h3&gt;
+
+&lt;p&gt;Debian系发行版默认情况下，执行docker info会返回警告——&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;~$ docker info
+[...]
+WARNING: No kernel memory limit support
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;消除方法是在GRUB配置文件中添加内核参数——&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;~$ sudo cat /etc/default/grub
+[...]
+GRUB_CMDLINE_LINUX=&amp;quot;cgroup_enable=memory swapaccount=1&amp;quot;
+[...]
+~$ sudo update-grub2
+~$ sudo reboot                      # 需要重启
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;docker-compose-和-registry&#34;&gt;docker-compose 和 registry&lt;/h3&gt;
+
+&lt;p&gt;docker-compose 是一个编排工具，可通过 pip 安装。&lt;/p&gt;
+
+&lt;p&gt;在阿里云 VPC 内的 ECS 实例上开启一个后端存储为 OSS 的私有仓库——&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;~# docker-compose -f registry.yaml up &amp;amp;
+
+---
+registry:
+  restart: always
+  image: registry:2.5.1
+  ports:
+    - 5000:5000
+  environment:
+    - REGISTRY_HTTP_ADDR=0.0.0.0:5000
+    - REGISTRY_STORAGE=oss
+    - REGISTRY_STORAGE_OSS_INTERNAL=true
+    - REGISTRY_STORAGE_OSS_SECURE=false
+    - REGISTRY_STORAGE_OSS_ACCESSKEYID={{ access_key }}
+    - REGISTRY_STORAGE_OSS_ACCESSKEYSECRET={{ secret_key }}
+    - REGISTRY_STORAGE_OSS_BUCKET={{ oss_bucket }}
+    - REGISTRY_STORAGE_OSS_REGION={{ oss_region }}
+    - REGISTRY_STORAGE_OSS_ENDPOINT={{ oss_bucket }}.vpc100-{{ oss_region }}.aliyuncs.com
+    - REGISTRY_STORAGE_OSS_ROOTDIRECTORY=registry_v2
+    - REGISTRY_STORAGE_DELETE_ENABLED=True
+&lt;/code&gt;&lt;/pre&gt;
+</description>
     </item>
     
   </channel>
